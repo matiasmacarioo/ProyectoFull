@@ -27,10 +27,17 @@ namespace TuProyecto.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(string nombre, DateTime fechaNacimiento, int carreraID, string direccion, int documento, string email)
         {
-            var alumno = new Alumno { Nombre = nombre, FechaNacimiento = fechaNacimiento, CarreraID = carreraID, Direccion = direccion, Documento = documento, Email = email };
-            _context.Alumnos.Add(alumno);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var alumnoExiste = await _context.Alumnos.AnyAsync(a => a.Documento == documento);
+
+            if(!alumnoExiste){
+                var alumno = new Alumno { Nombre = nombre, FechaNacimiento = fechaNacimiento, CarreraID = carreraID, Direccion = direccion, Documento = documento, Email = email };
+                _context.Alumnos.Add(alumno);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            else{
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         [HttpPost]
