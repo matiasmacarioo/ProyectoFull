@@ -1,0 +1,102 @@
+@model List<Asignatura>
+
+<div class="col-6 mx-auto">
+    <h1>Asignaturas</h1>
+    <hr><br>
+</div>
+
+<div class="container">
+    <div class="d-flex align-items-center justify-content-center">
+        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
+            Crear
+        </button>
+        @* @using (Html.BeginForm("GenerateReport", "Report", new { reportName = "Asignaturas" }, FormMethod.Post))
+        {
+            <button type="submit" class="btn btn-dark m-1">Generar PDF</button>
+        } *@
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Asignatura</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form asp-action="Create" id="formulario" asp-controller="Asignaturas" method="post">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre:</label>
+                                    <input type="text" id="nombre" name="nombre" placeholder="Nombre Completo"
+                                        class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="carreraID">Carrera:</label>
+                                    <select id="carreraID" name="carreraID" class="form-control" required>
+                                        <option value="">Selecciona una carrera</option>
+                                        @foreach (var item in ViewBag.CarrerasList)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container col-10">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Carrera</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var asignatura in Model)
+            {
+                <tr>
+                    <td>@asignatura.Nombre</td>
+                    <td>@asignatura.Carrera.Nombre</td>
+                    <td class="text-center">
+                        <button
+                            onclick="pasarDatos(@asignatura.AsignaturaID, '@asignatura.Nombre', @asignatura.CarreraID)"
+                            type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
+                            Editar
+                        </button>
+                        <form asp-action="Delete" asp-controller="Asignaturas" asp-route-id="@asignatura.AsignaturaID"
+                            class="d-inline">
+                            <button class="btn btn-dark" type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function pasarDatos(id, nombre, carrera) {
+        var form = document.getElementById('formulario');
+        form.action = '/Asignaturas/Edit/' + id;
+        document.getElementById('nombre').value = nombre;
+        document.getElementById('carreraID').value = carrera;
+        console.log(id, nombre, carrera);
+    }
+</script>

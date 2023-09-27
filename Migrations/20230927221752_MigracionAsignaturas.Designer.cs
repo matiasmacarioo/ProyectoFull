@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Proyecto.Data;
 
@@ -11,9 +12,10 @@ using Proyecto.Data;
 namespace Proyecto.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230927221752_MigracionAsignaturas")]
+    partial class MigracionAsignaturas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,27 +259,6 @@ namespace Proyecto.Migrations
                     b.ToTable("Alumnos");
                 });
 
-            modelBuilder.Entity("Proyecto.Models.Asignatura", b =>
-                {
-                    b.Property<int>("AsignaturaID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AsignaturaID"), 1L, 1);
-
-                    b.Property<int>("CarreraID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Nombre")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AsignaturaID");
-
-                    b.HasIndex("CarreraID");
-
-                    b.ToTable("Asignaturas");
-                });
-
             modelBuilder.Entity("Proyecto.Models.Carrera", b =>
                 {
                     b.Property<int>("CarreraID")
@@ -379,17 +360,6 @@ namespace Proyecto.Migrations
                 });
 
             modelBuilder.Entity("Proyecto.Models.Alumno", b =>
-                {
-                    b.HasOne("Proyecto.Models.Carrera", "Carrera")
-                        .WithMany()
-                        .HasForeignKey("CarreraID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Carrera");
-                });
-
-            modelBuilder.Entity("Proyecto.Models.Asignatura", b =>
                 {
                     b.HasOne("Proyecto.Models.Carrera", "Carrera")
                         .WithMany()

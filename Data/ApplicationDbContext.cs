@@ -13,4 +13,5 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Proyecto.Models.Carrera>? Carreras { get; set; }
     public DbSet<Proyecto.Models.Alumno>? Alumnos { get; set; }
     public DbSet<Proyecto.Models.Profesor>? Profesores { get; set; }
+    public DbSet<Proyecto.Models.Asignatura>? Asignaturas { get; set; }
 }
