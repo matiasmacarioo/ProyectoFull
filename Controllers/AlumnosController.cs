@@ -25,16 +25,16 @@ namespace TuProyecto.Controllers
             return View(alumnos);
         }
         [HttpPost]
-        public async Task<IActionResult> Create(string nombre, DateTime fechaNacimiento, int carreraID)
+        public async Task<IActionResult> Create(string nombre, DateTime fechaNacimiento, int carreraID, string direccion, int documento, string email)
         {
-            var alumno = new Alumno { Nombre = nombre, FechaNacimiento = fechaNacimiento, CarreraID = carreraID };
+            var alumno = new Alumno { Nombre = nombre, FechaNacimiento = fechaNacimiento, CarreraID = carreraID, Direccion = direccion, Documento = documento, Email = email };
             _context.Alumnos.Add(alumno);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, string nombre, DateTime fechaNacimiento, int carreraID)
+        public async Task<IActionResult> Edit(int id, string nombre, DateTime fechaNacimiento, int carreraID, string direccion, int documento, string email)
         {
             var alumno = await _context.Alumnos.FindAsync(id);
             if (alumno != null)
@@ -42,6 +42,9 @@ namespace TuProyecto.Controllers
                 alumno.Nombre = nombre;
                 alumno.FechaNacimiento = fechaNacimiento;
                 alumno.CarreraID = carreraID;
+                alumno.Direccion = direccion;
+                alumno.Documento = documento;
+                alumno.Email = email;
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));

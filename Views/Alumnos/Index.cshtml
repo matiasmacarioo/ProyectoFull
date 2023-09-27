@@ -42,6 +42,27 @@
                                         required>
                                 </div>
                             </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="direccion">Dirección:</label>
+                                    <input type="text" id="direccion" name="direccion" placeholder="Dirección"
+                                        class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="documento">Documento:</label>
+                                    <input type="text" id="documento" name="documento" placeholder="Documento"
+                                        class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <input type="text" id="email" name="email" placeholder="Email"
+                                        class="form-control" required>
+                                </div>
+                            </div>
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="carreraID">Carrera:</label>
@@ -71,6 +92,9 @@
                 <th>Nombre</th>
                 <th>Fecha de Nacimiento</th>
                 <th>Carrera</th>
+                <th>Documento</th>
+                <th>Dirección</th>
+                <th>Email</th>
                 <th class="text-center">Acciones</th>
             </tr>
         </thead>
@@ -81,8 +105,11 @@
                     <td>@alumno.Nombre</td>
                     <td>@alumno.FechaNacimiento.ToString("dd-MM-yyyy")</td>
                     <td>@alumno.Carrera.Nombre</td>
+                    <td>@alumno.Documento</td>
+                    <td>@alumno.Direccion</td>
+                    <td>@alumno.Email</td>
                     <td class="text-center">
-                        <button onclick="pasarDatos(@alumno.AlumnoID, '@alumno.Nombre', @alumno.CarreraID, '@alumno.FechaString')" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
+                        <button onclick="pasarDatos(@alumno.AlumnoID, '@alumno.Nombre', @alumno.CarreraID, '@alumno.FechaString', @alumno.Documento, '@alumno.Direccion', '@alumno.Email')" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
                             Editar
                         </button>
                         <form asp-action="Delete" asp-controller="Alumnos" asp-route-id="@alumno.AlumnoID" class="d-inline">
@@ -96,12 +123,15 @@
 </div>
 
 <script>
-    function pasarDatos(id, nombre, carrera, fecha) {
+    function pasarDatos(id, nombre, carrera, fecha, documento, direccion, email) {
         var form = document.getElementById('formulario');
         form.action = '/Alumnos/Edit/' + id;
         document.getElementById('nombre').value = nombre;
         document.getElementById('carreraID').value = carrera;
         document.getElementById('fechaNacimiento').value = fecha;
-        console.log(id, nombre, carrera, fecha);
+        document.getElementById('documento').value = documento;
+        document.getElementById('direccion').value = direccion;
+        document.getElementById('email').value = email;
+        console.log(id, nombre, carrera, fecha, documento, direccion, email);
     }
 </script>
