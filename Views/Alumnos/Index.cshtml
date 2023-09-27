@@ -1,0 +1,107 @@
+@model List<Alumno>
+
+<div class="col-6 mx-auto">
+    <h1>Alumnos</h1><hr><br>
+</div>
+
+<div class="container">
+    <div class="d-flex align-items-center justify-content-center">
+        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
+            Crear
+        </button>
+        @using (Html.BeginForm("GenerateReport", "Report", new { reportName = "Alumnos" }, FormMethod.Post))
+        {
+            <button type="submit" class="btn btn-dark m-1">Generar PDF</button>
+        }
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Alumno</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form asp-action="Create" id="formulario" asp-controller="Alumnos" method="post">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre:</label>
+                                    <input type="text" id="nombre" name="nombre" placeholder="Nombre Completo"
+                                        class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+                                    <input type="date" id="fechaNacimiento" name="fechaNacimiento" class="form-control"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="carreraID">Carrera:</label>
+                                    <select id="carreraID" name="carreraID" class="form-control" required>
+                                        <option value="">Selecciona una carrera</option>
+                                        @foreach (var item in ViewBag.CarrerasList)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container col-10">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Carrera</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var alumno in Model)
+            {
+                <tr>
+                    <td>@alumno.Nombre</td>
+                    <td>@alumno.FechaNacimiento.ToString("dd-MM-yyyy")</td>
+                    <td>@alumno.Carrera.Nombre</td>
+                    <td class="text-center">
+                        <button onclick="pasarDatos(@alumno.AlumnoID, '@alumno.Nombre', @alumno.CarreraID, '@alumno.FechaString')" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
+                            Editar
+                        </button>
+                        <form asp-action="Delete" asp-controller="Alumnos" asp-route-id="@alumno.AlumnoID" class="d-inline">
+                            <button class="btn btn-dark" type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function pasarDatos(id, nombre, carrera, fecha) {
+        var form = document.getElementById('formulario');
+        form.action = '/Alumnos/Edit/' + id;
+        document.getElementById('nombre').value = nombre;
+        document.getElementById('carreraID').value = carrera;
+        document.getElementById('fechaNacimiento').value = fecha;
+        console.log(id, nombre, carrera, fecha);
+    }
+</script>

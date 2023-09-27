@@ -1,0 +1,91 @@
+@model List<Carrera>
+
+<div class="col-6 mx-auto">
+    <h1>Carreras</h1><hr><br>
+</div>
+
+<div class="container">
+    <div class="d-flex align-items-center justify-content-center">
+        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
+            Crear
+        </button>
+        @using (Html.BeginForm("GenerateReport", "Report", new { reportName = "Carreras" }, FormMethod.Post))
+        {
+            <button type="submit" class="btn btn-dark m-1">Generar PDF</button>
+        }
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Formulario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form asp-action="Create" id="formulario" asp-controller="Carreras" method="post">
+                        <div class="row">
+                            <div class="col-11">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre:</label>
+                                    <input type="text" id="nombre" name="nombre" placeholder="Carrera" class="form-control" required>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="duracion">Duración:</label>
+                                    <input type="text" id="duracion" name="duracion" placeholder="En años" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container col-10">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Duración</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var carrera in Model)
+            {
+                <tr>
+                    <td>@carrera.Nombre</td>
+                    <td>@carrera.Duracion Años</td>
+                    <td class="text-center">
+                        <button onclick="pasarDatos(@carrera.CarreraID, '@carrera.Nombre', @carrera.Duracion)"  type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
+                            Editar
+                        </button>
+                        <form asp-action="Delete" asp-controller="Carreras" asp-route-id="@carrera.CarreraID" class="d-inline">
+                            <button class="btn btn-dark" type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function pasarDatos(id, nombre, duracion) {
+        var form = document.getElementById('formulario');
+        form.action = '/Carreras/Edit/' + id;
+        document.getElementById('nombre').value = nombre;
+        document.getElementById('duracion').value = duracion;
+    }
+</script>

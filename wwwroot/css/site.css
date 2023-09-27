@@ -1,0 +1,41 @@
+html {
+  font-size: 14px;
+  /* background-color: rgb(39, 39, 39); */
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  /* background-color: rgb(39, 39, 39); */
+  /* color: aliceblue; */
+}
+
+.table{
+  color: black;
+}
+
+h1 {
+  text-align: center;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #a7404adc;
+  border-color: #dc3545;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #276db3bd;
+  border-color: #1861ac;
+}
