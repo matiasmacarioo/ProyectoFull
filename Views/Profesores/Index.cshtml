@@ -58,7 +58,13 @@
                                         class="form-control" required>
                                 </div>
                             </div>
-
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <input type="text" id="email" name="email" placeholder="Email"
+                                        class="form-control" required>
+                                </div>
+                            </div>
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="carreraID">Carrera:</label>
@@ -90,6 +96,7 @@
                 <th>Carrera</th>
                 <th>Documento</th>
                 <th>Dirección</th>
+                <th>Email</th>
                 <th class="text-center">Acciones</th>
             </tr>
         </thead>
@@ -102,9 +109,10 @@
                     <td>@profesor.Carrera.Nombre</td>
                     <td>@profesor.Documento</td>
                     <td>@profesor.Direccion</td>
+                    <td>@profesor.Email</td>
                     <td class="text-center">
                         <button
-                            onclick="pasarDatos(@profesor.ProfesorID, '@profesor.Nombre', @profesor.CarreraID, '@profesor.FechaString', '@profesor.Documento', '@profesor.Direccion')"
+                            onclick="pasarDatos(@profesor.ProfesorID, '@profesor.Nombre', @profesor.CarreraID, '@profesor.FechaString', '@profesor.Documento', '@profesor.Direccion', '@profesor.Email')"
                             type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
                             Editar
                         </button>
@@ -120,7 +128,7 @@
 </div>
 
 <script>
-    function pasarDatos(id, nombre, carrera, fecha, documento, direccion) {
+    function pasarDatos(id, nombre, carrera, fecha, documento, direccion, email) {
         var form = document.getElementById('formulario');
         form.action = '/Profesores/Edit/' + id;
         document.getElementById('nombre').value = nombre;
@@ -128,6 +136,7 @@
         document.getElementById('fechaNacimiento').value = fecha;
         document.getElementById('documento').value = documento;
         document.getElementById('direccion').value = direccion;
-        @* console.log(id, nombre, carrera, fecha, documento, direccion); *@
+        document.getElementById('email').value = email;
+        console.log(id, nombre, carrera, fecha, documento, direccion, email);
     }
 </script>

@@ -26,11 +26,11 @@ namespace Proyecto.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(string nombre, DateTime fechaNacimiento, int carreraID, string direccion, int documento)
+        public async Task<IActionResult> Create(string nombre, DateTime fechaNacimiento, int carreraID, string direccion, int documento, string email)
         {
             var profesorExiste = await _context.Profesores.AnyAsync(a => a.Documento == documento);
             if (!profesorExiste){
-                var profesor = new Profesor { Nombre = nombre, FechaNacimiento = fechaNacimiento, CarreraID = carreraID, Direccion = direccion, Documento = documento };
+                var profesor = new Profesor { Nombre = nombre, FechaNacimiento = fechaNacimiento, CarreraID = carreraID, Direccion = direccion, Documento = documento, Email = email };
                 _context.Profesores.Add(profesor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -41,7 +41,7 @@ namespace Proyecto.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, string nombre, DateTime fechaNacimiento, int carreraID, string direccion, int documento)
+        public async Task<IActionResult> Edit(int id, string nombre, DateTime fechaNacimiento, int carreraID, string direccion, int documento, string email)
         {
 
             var profesor = await _context.Profesores.FindAsync(id);
@@ -51,6 +51,7 @@ namespace Proyecto.Controllers
                 profesor.FechaNacimiento = fechaNacimiento;
                 profesor.CarreraID = carreraID;
                 profesor.Direccion = direccion;
+                profesor.Email = email;
                 var profesorExiste = await _context.Profesores.AnyAsync(a => a.Documento == documento);
                 if (!profesorExiste){
                     profesor.Documento = documento;
