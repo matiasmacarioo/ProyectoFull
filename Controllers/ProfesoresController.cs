@@ -21,7 +21,9 @@ namespace Proyecto.Controllers
         {
             var profesores = _context.Profesores?.Include(a => a.Carrera).OrderBy(a => a.Nombre).ToList();
             var carreras = _context.Carreras?.ToList();
+            var asignaturas = _context.Asignaturas?.ToList();
             ViewBag.CarrerasList = new SelectList(carreras, "CarreraID", "Nombre");
+            ViewBag.AsignaturasList = new SelectList(asignaturas, "AsignaturaID", "Nombre");
             return View(profesores);
         }
 
@@ -29,13 +31,15 @@ namespace Proyecto.Controllers
         public async Task<IActionResult> Create(string nombre, DateTime fechaNacimiento, int carreraID, string direccion, int documento, string email)
         {
             var profesorExiste = await _context.Profesores.AnyAsync(a => a.Documento == documento);
-            if (!profesorExiste){
+            if (!profesorExiste)
+            {
                 var profesor = new Profesor { Nombre = nombre, FechaNacimiento = fechaNacimiento, CarreraID = carreraID, Direccion = direccion, Documento = documento, Email = email };
                 _context.Profesores.Add(profesor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            else{
+            else
+            {
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -53,7 +57,8 @@ namespace Proyecto.Controllers
                 profesor.Direccion = direccion;
                 profesor.Email = email;
                 var profesorExiste = await _context.Profesores.AnyAsync(a => a.Documento == documento);
-                if (!profesorExiste){
+                if (!profesorExiste)
+                {
                     profesor.Documento = documento;
                 }
                 await _context.SaveChangesAsync();
@@ -72,5 +77,45 @@ namespace Proyecto.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AsociarAsignaturas(int profesorID, List<int> asignaturas)
+        {
+            try
+            {
+                var profesor = await _context.Profesores.FindAsync(profesorID);
+                if (profesor == null)
+                {
+                    return NotFound();
+                }
+
+                // Elimina las relaciones de asignaturas existentes para este profesor.
+                var relacionesAntiguas = _context.ProfesorAsignaturas.Where(pa => pa.ProfesorID == profesorID);
+                _context.ProfesorAsignaturas.RemoveRange(relacionesAntiguas);
+
+                // Asocia las nuevas asignaturas seleccionadas.
+                foreach (var asignaturaID in asignaturas)
+                {
+                    var profesorAsignatura = new ProfesorAsignatura
+                    {
+                        ProfesorID = profesorID,
+                        AsignaturaID = asignaturaID
+                    };
+
+                    // Agrega la nueva relación ProfesorAsignatura a la base de datos.
+                    _context.ProfesorAsignaturas.Add(profesorAsignatura);
+                }
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+
     }
 }
