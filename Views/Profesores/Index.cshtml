@@ -92,7 +92,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Asociar Asignatura</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Asociar Asignaturas</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -101,7 +101,7 @@
                     <!-- Lista de asignaturas disponibles -->
                     <div class="form-group">
                         <label for="asignaturasDisponibles">Asignaturas Disponibles:</label>
-                        <select id="asignaturasDisponibles" name="asignaturasDisponibles" class="form-control" multiple>
+                        <select id="asignaturasDisponibles" name="asignaturas" class="form-control" multiple>
                             <option disabled value="">Selecciona la/s asignatura/s a asociar (ctrl+click)</option>
                             @foreach (var asignatura in ViewBag.AsignaturasList)
                             {
@@ -109,7 +109,6 @@
                             }
                         </select>
                     </div>
-                    <br>
                     <button type="submit" class="btn btn-dark">Asociar Asignaturas</button>
                 </form>
             </div>
