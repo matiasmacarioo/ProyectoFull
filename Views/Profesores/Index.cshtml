@@ -79,7 +79,7 @@
                             </div>
                         </div>
                         <br>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="submit" class="btn btn-dark">Guardar</button>
                     </form>
                 </div>
             </div>
@@ -102,13 +102,14 @@
                     <div class="form-group">
                         <label for="asignaturasDisponibles">Asignaturas Disponibles:</label>
                         <select id="asignaturasDisponibles" name="asignaturasDisponibles" class="form-control" multiple>
-                            <option disabled value="">Selecciona las asignaturas a asociar</option>
+                            <option disabled value="">Selecciona la/s asignatura/s a asociar (ctrl+click)</option>
                             @foreach (var asignatura in ViewBag.AsignaturasList)
                             {
                                 <option value="@asignatura.Value">@asignatura.Text</option>
                             }
                         </select>
                     </div>
+                    <br>
                     <button type="submit" class="btn btn-dark">Asociar Asignaturas</button>
                 </form>
             </div>
@@ -148,7 +149,7 @@
                         </button>
                         <button onclick="asociarAsignaturas(@profesor.ProfesorID)" type="button" class="btn btn-dark"
                             data-bs-toggle="modal" data-bs-target="#asociarModal">
-                            Asociar Asignaturas
+                            Asignaturas
                         </button>
                         <form asp-action="Delete" asp-controller="Profesores" asp-route-id="@profesor.ProfesorID"
                             class="d-inline">
