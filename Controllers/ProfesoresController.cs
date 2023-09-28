@@ -115,7 +115,5 @@ namespace Proyecto.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
-
-
     }
 }
