@@ -12,15 +12,12 @@
         </button>
         @* @using (Html.BeginForm("GenerateReport", "Report", new { reportName = "Tareas" }, FormMethod.Post))
         {
-            <button type="submit" class="btn btn-dark m-1">Generar PDF</button>
+        <button type="submit" class="btn btn-dark m-1">Generar PDF</button>
         } *@
     </div>
 </div>
-
-
-<!-- Modal -->
 <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Tarea</h1>
@@ -30,36 +27,30 @@
                 <div class="row">
                     <form asp-action="Create" id="formulario" asp-controller="Tareas" method="post">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="titulo">Título:</label>
                                     <input type="text" id="titulo" name="titulo" placeholder="Título"
                                         class="form-control" required>
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label for="descripcion">Descripción:</label>
-                                    <input type="text" id="descripcion" name="descripcion" placeholder="Descripción"
-                                        class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label for="fecha">Fecha:</label>
-                                    <input type="date" id="fecha" name="fecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control"
-                                        required>
-                                </div>
-                            </div>
-                            <div class="col-6">
+                            <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="fechaVencimiento">Fecha de Vencimiento:</label>
-                                    <input type="date" id="fechaVencimiento" value="@DateTime.Now.AddMonths(1).ToString("yyyy-MM-dd")" name="fechaVencimiento" class="form-control"
-                                        required>
+                                    <input type="date" id="fechaVencimiento"
+                                        value="@DateTime.Now.AddMonths(1).ToString("yyyy-MM-dd")"
+                                        name="fechaVencimiento" class="form-control" required>
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <div class="col-12 col-lg-6">
                                 <div class="form-group">
+                                    <label for="fecha">Fecha:</label>
+                                    <input type="date" id="fecha" name="fecha"
+                                        value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                 <div class="form-group">
                                     <label for="asignaturaID">Asignatura:</label>
                                     <select id="asignaturaID" name="asignaturaID" class="form-control" required>
                                         <option value="">Selecciona una asignatura</option>
@@ -70,8 +61,15 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <div class="col-12 col-lg-6">
                                 <div class="form-group">
+                                    <label for="descripcion">Descripción:</label>
+                                    <textarea id="descripcion" name="descripcion" placeholder="Descripción"
+                                        class="form-control" rows="4" required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                               <div class="form-group">
                                     <label for="usuarioID">Usuario:</label>
                                     <select id="usuarioID" name="usuarioID" class="form-control" required>
                                         <option value="">Selecciona un usuario</option>
@@ -84,13 +82,15 @@
                             </div>
                         </div>
                         <br>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="submit" class="btn btn-dark">Guardar</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 
 <div class="container col-10">
     <table class="table">
@@ -121,8 +121,7 @@
                             type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
                             Editar
                         </button>
-                        <form asp-action="Delete" asp-controller="Tareas" asp-route-id="@tarea.TareaID"
-                            class="d-inline">
+                        <form asp-action="Delete" asp-controller="Tareas" asp-route-id="@tarea.TareaID" class="d-inline">
                             <button class="btn btn-dark" type="submit">Eliminar</button>
                         </form>
                     </td>
