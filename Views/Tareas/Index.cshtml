@@ -1,0 +1,147 @@
+@model List<Tarea>
+
+<div class="col-6 mx-auto">
+    <h1>Tareas</h1>
+    <hr><br>
+</div>
+
+<div class="container">
+    <div class="d-flex align-items-center justify-content-center">
+        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
+            Crear
+        </button>
+        @* @using (Html.BeginForm("GenerateReport", "Report", new { reportName = "Tareas" }, FormMethod.Post))
+        {
+            <button type="submit" class="btn btn-dark m-1">Generar PDF</button>
+        } *@
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Tarea</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form asp-action="Create" id="formulario" asp-controller="Tareas" method="post">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="titulo">Título:</label>
+                                    <input type="text" id="titulo" name="titulo" placeholder="Título"
+                                        class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="descripcion">Descripción:</label>
+                                    <input type="text" id="descripcion" name="descripcion" placeholder="Descripción"
+                                        class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="fecha">Fecha:</label>
+                                    <input type="date" id="fecha" name="fecha" class="form-control"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="fechaVencimiento">Fecha de Vencimiento:</label>
+                                    <input type="date" id="fechaVencimiento" name="fechaVencimiento" class="form-control"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="asignaturaID">Asignatura:</label>
+                                    <select id="asignaturaID" name="asignaturaID" class="form-control" required>
+                                        <option value="">Selecciona una asignatura</option>
+                                        @foreach (var item in ViewBag.AsignaturasList)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="usuarioID">Usuario:</label>
+                                    <select id="usuarioID" name="usuarioID" class="form-control" required>
+                                        <option value="">Selecciona un usuario</option>
+                                        @foreach (var item in ViewBag.UsuariosList)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container col-10">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Descripcion</th>
+                <th>Asignatura</th>
+                <th>Usuario</th>
+                <th>Fecha</th>
+                <th>Vencimiento</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tarea in Model)
+            {
+                <tr>
+                    <td>@tarea.Titulo</td>
+                    <td>@tarea.Descripcion</td>
+                    <td>@tarea.Asignatura.Nombre</td>
+                    <td>@tarea.Usuario</td>
+                    <td>@tarea.Fecha.ToString("dd-MM-yyyy")</td>
+                    <td>@tarea.FechaVencimiento.ToString("dd-MM-yyyy")</td>
+                    <td class="text-center">
+                        <button
+                            onclick="pasarDatos(@tarea.TareaID, '@tarea.Titulo', '@tarea.Descripcion', @tarea.AsignaturaID, '@tarea.UsuarioID', '@tarea.FechaString', '@tarea.FechaVencimientoString')"
+                            type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
+                            Editar
+                        </button>
+                        <form asp-action="Delete" asp-controller="Tareas" asp-route-id="@tarea.TareaID"
+                            class="d-inline">
+                            <button class="btn btn-dark" type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function pasarDatos(id, titulo, descripcion, asignatura, usuario, fecha, fechaVencimiento) {
+        var form = document.getElementById('formulario');
+        form.action = '/Tareas/Edit/' + id;
+        document.getElementById('titulo').value = titulo;
+        document.getElementById('descripcion').value = descripcion;
+        document.getElementById('asignaturaID').value = asignatura;
+        document.getElementById('usuarioID').value = usuario;
+        document.getElementById('fecha').value = fecha;
+        document.getElementById('fechaVencimiento').value = fechaVencimiento;
+        console.log(id, titulo, descripcion, asignatura, usuario, fecha, fechaVencimiento);
+    }
+</script>

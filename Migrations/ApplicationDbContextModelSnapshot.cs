@@ -330,12 +330,70 @@ namespace Proyecto.Migrations
                     b.ToTable("Profesores");
                 });
 
+            modelBuilder.Entity("Proyecto.Models.ProfesorAsignatura", b =>
+                {
+                    b.Property<int>("ProfesorAsignaturaID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfesorAsignaturaID"), 1L, 1);
+
+                    b.Property<int>("AsignaturaID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProfesorID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProfesorAsignaturaID");
+
+                    b.HasIndex("AsignaturaID");
+
+                    b.HasIndex("ProfesorID");
+
+                    b.ToTable("ProfesorAsignaturas");
+                });
+
+            modelBuilder.Entity("Proyecto.Models.Tarea", b =>
+                {
+                    b.Property<int>("TareaID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TareaID"), 1L, 1);
+
+                    b.Property<int>("AsignaturaID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaVencimiento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Titulo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UsuarioID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("TareaID");
+
+                    b.HasIndex("AsignaturaID");
+
+                    b.HasIndex("UsuarioID");
+
+                    b.ToTable("Tareas");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -344,7 +402,7 @@ namespace Proyecto.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -353,7 +411,7 @@ namespace Proyecto.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -362,13 +420,13 @@ namespace Proyecto.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -377,7 +435,7 @@ namespace Proyecto.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -386,7 +444,7 @@ namespace Proyecto.Migrations
                     b.HasOne("Proyecto.Models.Carrera", "Carrera")
                         .WithMany()
                         .HasForeignKey("CarreraID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Carrera");
@@ -397,7 +455,7 @@ namespace Proyecto.Migrations
                     b.HasOne("Proyecto.Models.Carrera", "Carrera")
                         .WithMany()
                         .HasForeignKey("CarreraID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Carrera");
@@ -408,10 +466,52 @@ namespace Proyecto.Migrations
                     b.HasOne("Proyecto.Models.Carrera", "Carrera")
                         .WithMany()
                         .HasForeignKey("CarreraID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Carrera");
+                });
+
+            modelBuilder.Entity("Proyecto.Models.ProfesorAsignatura", b =>
+                {
+                    b.HasOne("Proyecto.Models.Asignatura", "Asignatura")
+                        .WithMany()
+                        .HasForeignKey("AsignaturaID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Proyecto.Models.Profesor", "Profesor")
+                        .WithMany("ProfesorAsignaturas")
+                        .HasForeignKey("ProfesorID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Asignatura");
+
+                    b.Navigation("Profesor");
+                });
+
+            modelBuilder.Entity("Proyecto.Models.Tarea", b =>
+                {
+                    b.HasOne("Proyecto.Models.Asignatura", "Asignatura")
+                        .WithMany()
+                        .HasForeignKey("AsignaturaID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Asignatura");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Proyecto.Models.Profesor", b =>
+                {
+                    b.Navigation("ProfesorAsignaturas");
                 });
 #pragma warning restore 612, 618
         }

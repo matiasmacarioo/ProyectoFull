@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Proyecto.Migrations
 {
-    public partial class Mig1 : Migration
+    public partial class MigracionInicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,7 +49,7 @@ namespace Proyecto.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Carrera",
+                name: "Carreras",
                 columns: table => new
                 {
                     CarreraID = table.Column<int>(type: "int", nullable: false)
@@ -59,7 +59,7 @@ namespace Proyecto.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Carrera", x => x.CarreraID);
+                    table.PrimaryKey("PK_Carreras", x => x.CarreraID);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,7 +80,7 @@ namespace Proyecto.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -101,7 +101,7 @@ namespace Proyecto.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -121,7 +121,7 @@ namespace Proyecto.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -139,13 +139,13 @@ namespace Proyecto.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -165,33 +165,141 @@ namespace Proyecto.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Alumno",
+                name: "Alumnos",
                 columns: table => new
                 {
                     AlumnoID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Documento = table.Column<int>(type: "int", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Direccion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FechaNacimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CarreraID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Alumno", x => x.AlumnoID);
+                    table.PrimaryKey("PK_Alumnos", x => x.AlumnoID);
                     table.ForeignKey(
-                        name: "FK_Alumno_Carrera_CarreraID",
+                        name: "FK_Alumnos_Carreras_CarreraID",
                         column: x => x.CarreraID,
-                        principalTable: "Carrera",
+                        principalTable: "Carreras",
                         principalColumn: "CarreraID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Asignaturas",
+                columns: table => new
+                {
+                    AsignaturaID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CarreraID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Asignaturas", x => x.AsignaturaID);
+                    table.ForeignKey(
+                        name: "FK_Asignaturas_Carreras_CarreraID",
+                        column: x => x.CarreraID,
+                        principalTable: "Carreras",
+                        principalColumn: "CarreraID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Profesores",
+                columns: table => new
+                {
+                    ProfesorID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Documento = table.Column<int>(type: "int", nullable: true),
+                    Direccion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FechaNacimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CarreraID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Profesores", x => x.ProfesorID);
+                    table.ForeignKey(
+                        name: "FK_Profesores_Carreras_CarreraID",
+                        column: x => x.CarreraID,
+                        principalTable: "Carreras",
+                        principalColumn: "CarreraID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tareas",
+                columns: table => new
+                {
+                    TareaID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Titulo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaVencimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UsuarioID = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    AsignaturaID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tareas", x => x.TareaID);
+                    table.ForeignKey(
+                        name: "FK_Tareas_Asignaturas_AsignaturaID",
+                        column: x => x.AsignaturaID,
+                        principalTable: "Asignaturas",
+                        principalColumn: "AsignaturaID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Tareas_AspNetUsers_UsuarioID",
+                        column: x => x.UsuarioID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProfesorAsignaturas",
+                columns: table => new
+                {
+                    ProfesorAsignaturaID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProfesorID = table.Column<int>(type: "int", nullable: false),
+                    AsignaturaID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProfesorAsignaturas", x => x.ProfesorAsignaturaID);
+                    table.ForeignKey(
+                        name: "FK_ProfesorAsignaturas_Asignaturas_AsignaturaID",
+                        column: x => x.AsignaturaID,
+                        principalTable: "Asignaturas",
+                        principalColumn: "AsignaturaID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ProfesorAsignaturas_Profesores_ProfesorID",
+                        column: x => x.ProfesorID,
+                        principalTable: "Profesores",
+                        principalColumn: "ProfesorID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Alumno_CarreraID",
-                table: "Alumno",
+                name: "IX_Alumnos_CarreraID",
+                table: "Alumnos",
+                column: "CarreraID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Asignaturas_CarreraID",
+                table: "Asignaturas",
                 column: "CarreraID");
 
             migrationBuilder.CreateIndex(
@@ -232,12 +340,37 @@ namespace Proyecto.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProfesorAsignaturas_AsignaturaID",
+                table: "ProfesorAsignaturas",
+                column: "AsignaturaID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProfesorAsignaturas_ProfesorID",
+                table: "ProfesorAsignaturas",
+                column: "ProfesorID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Profesores_CarreraID",
+                table: "Profesores",
+                column: "CarreraID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tareas_AsignaturaID",
+                table: "Tareas",
+                column: "AsignaturaID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tareas_UsuarioID",
+                table: "Tareas",
+                column: "UsuarioID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Alumno");
+                name: "Alumnos");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -255,13 +388,25 @@ namespace Proyecto.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Carrera");
+                name: "ProfesorAsignaturas");
+
+            migrationBuilder.DropTable(
+                name: "Tareas");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Profesores");
+
+            migrationBuilder.DropTable(
+                name: "Asignaturas");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Carreras");
         }
     }
 }
