@@ -47,14 +47,14 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="fecha">Fecha:</label>
-                                    <input type="date" id="fecha" name="fecha" class="form-control"
+                                    <input type="date" id="fecha" name="fecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control"
                                         required>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="fechaVencimiento">Fecha de Vencimiento:</label>
-                                    <input type="date" id="fechaVencimiento" name="fechaVencimiento" class="form-control"
+                                    <input type="date" id="fechaVencimiento" value="@DateTime.Now.AddMonths(1).ToString("yyyy-MM-dd")" name="fechaVencimiento" class="form-control"
                                         required>
                                 </div>
                             </div>
