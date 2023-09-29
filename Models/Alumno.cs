@@ -21,5 +21,7 @@ namespace Proyecto.Models
         [ForeignKey("Carrera")]
         public int CarreraID { get; set; }
         public Carrera? Carrera { get; set; }
+        public string? IdentityID { get; set; }
+        public IdentityUser? IdentityUser { get; set; } // Propiedad de navegación al usuario de Identity
     }
 }

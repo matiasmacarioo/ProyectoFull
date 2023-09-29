@@ -5,16 +5,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Proyecto.Models;
 using Proyecto.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace Proyecto.Controllers
 {
     public class ProfesoresController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _rolManager;
 
-        public ProfesoresController(ApplicationDbContext context)
+        public ProfesoresController(ApplicationDbContext context, RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
+            _rolManager = roleManager;
         }
 
         public async Task<IActionResult> Index()
@@ -30,10 +35,36 @@ namespace Proyecto.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(string nombre, DateTime fechaNacimiento, int carreraID, string direccion, int documento, string email)
         {
+            var idRelacionar = string.Empty;
+            var profesor = new Profesor { Nombre = nombre, FechaNacimiento = fechaNacimiento, CarreraID = carreraID, Direccion = direccion, Documento = documento, Email = email };
+            
             var profesorExiste = await _context.Profesores.AnyAsync(a => a.Documento == documento);
+            
             if (!profesorExiste)
             {
-                var profesor = new Profesor { Nombre = nombre, FechaNacimiento = fechaNacimiento, CarreraID = carreraID, Direccion = direccion, Documento = documento, Email = email };
+
+                // Verificar si el usuario de Identity ya existe
+                var usuarioExiste = await _userManager.FindByEmailAsync(profesor.Email);
+                if (usuarioExiste == null)
+                {
+                    // El usuario no existe, así que lo creamos
+                    var usuario = new IdentityUser { UserName = profesor.Email, Email = profesor.Email, EmailConfirmed = true };
+                    var result = await _userManager.CreateAsync(usuario, "profesor");
+                    idRelacionar = usuario.Id;
+                    if (result.Succeeded)
+                    {
+                        // Asignar el rol de "Profesor" al nuevo profesor
+                        await _userManager.AddToRoleAsync(usuario, "profesor");
+                    }
+                }
+
+                 if (usuarioExiste != null)
+                {
+                    idRelacionar = usuarioExiste.Id;
+                }
+
+                profesor.IdentityID = idRelacionar;
+
                 _context.Profesores.Add(profesor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
