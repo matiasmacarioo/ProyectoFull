@@ -1,61 +1,65 @@
 @model IEnumerable<Proyecto.Models.ProfesorAsignatura>
 
-<h2>Asignaturas por Profesor</h2>
+<h2>Asignaturas por Profesor.</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nombre del Profesor</th>
-            <th>Asignaturas</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var grupo in Model.GroupBy(pa => pa.Profesor.Nombre))
-        {
+<div class="container">
+    <table class="table table-responsive">
+        <thead>
             <tr>
-                <td>@grupo.Key</td>
-                <td>
-                    <table>
-                        @foreach (var item in grupo)
-                        {
-                            <tr>
-                                <td>@item.Asignatura.Nombre</td>
-                            </tr>
-                        }
-                    </table>
-                </td>
+                <th>Nombre del Profesor</th>
+                <th>Asignaturas</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var grupo in Model.GroupBy(pa => pa.Profesor.Nombre))
+            {
+                <tr>
+                    <td>@grupo.Key</td>
+                    <td>
+                        <table>
+                            @foreach (var item in grupo)
+                            {
+                                <tr>
+                                    <td>@item.Asignatura.Nombre</td>
+                                </tr>
+                            }
+                        </table>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
 
-<h2>Profesores por Asignatura</h2>
+    <div class="mb-5"><br></div>
 
-<!-- Tabla para mostrar los profesores por asignatura -->
-<table class="table">
-    <thead>
-        <tr>
-            <th>Asignatura</th>
-            <th>Profesores</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var grupo in Model.GroupBy(pa => pa.Asignatura.Nombre))
-        {
+    <h2>Profesores por Asignatura.</h2>
+
+    <!-- Tabla para mostrar los profesores por asignatura -->
+    <table class="table table-responsive">
+        <thead>
             <tr>
-                <td>@grupo.Key</td>
-                <td>
-                    <table>
-                        @foreach (var item in grupo)
-                        {
-                            <tr>
-                                <td>@item.Profesor.Nombre</td>
-                            </tr>
-                        }
-                    </table>
-                </td>
+                <th>Asignatura</th>
+                <th>Profesores</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var grupo in Model.GroupBy(pa => pa.Asignatura.Nombre))
+            {
+                <tr>
+                    <td>@grupo.Key</td>
+                    <td>
+                        <table>
+                            @foreach (var item in grupo)
+                            {
+                                <tr>
+                                    <td>@item.Profesor.Nombre</td>
+                                </tr>
+                            }
+                        </table>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

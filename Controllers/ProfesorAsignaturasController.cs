@@ -25,10 +25,6 @@ namespace Proyecto.Controllers
         public async Task<IActionResult> Index()
         {
             var ProfesorAsignaturas = _context.ProfesorAsignaturas?.Include(a => a.Profesor).Include(a => a.Asignatura).ToList();
-            var carreras = _context.Carreras?.ToList();
-            var asignaturas = _context.Asignaturas?.ToList();
-            ViewBag.CarrerasList = new SelectList(carreras, "CarreraID", "Nombre");
-            ViewBag.AsignaturasList = new SelectList(asignaturas, "AsignaturaID", "Nombre");
             return View(ProfesorAsignaturas);
         }
     }
