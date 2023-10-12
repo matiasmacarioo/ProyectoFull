@@ -7,68 +7,129 @@
     <h1 class="display-4">Bienvenido</h1>
 </div>
 
-<div class="chart-container" style="position: relative; height:80vh; width:160vw">
-    <canvas id="myChart"></canvas>
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="chart-container" style="position: relative; height: 100vh;">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="chart-container" style="position: relative; height: 60vh;">
+                <canvas id="myAgeChart"></canvas>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 
 <script src="~/js/chart4.4.js"></script>
 <script>
-  const ctx = document.getElementById('myChart');
-  const carreras = @Html.Raw(Json.Serialize(ViewData["Carreras"]));
-  const cantidadAlumnosPorCarrera = @Html.Raw(Json.Serialize(ViewData["CantidadAlumnosPorCarrera"]));
+    const ctx = document.getElementById('myChart');
+    const ctxAge = document.getElementById('myAgeChart');
+    const carreras = @Html.Raw(Json.Serialize(ViewData["Carreras"]));
+    const cantidadAlumnosPorCarrera = @Html.Raw(Json.Serialize(ViewData["CantidadAlumnosPorCarrera"]));
 
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: carreras,
-      datasets: [{
-        label: 'Cantidad de Alumnos por Carrera',
-        data: cantidadAlumnosPorCarrera,
-        backgroundColor: [
-      'rgba(255, 99, 132, 0.2)',
-      'rgba(255, 159, 64, 0.2)',
-      'rgba(255, 205, 86, 0.2)',
-      'rgba(75, 192, 192, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
-      'rgba(153, 102, 255, 0.2)',
-      'rgba(255, 99, 132, 0.2)',
-      'rgba(255, 159, 64, 0.2)',
-      'rgba(255, 205, 86, 0.2)',
-      'rgba(75, 192, 192, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
-      'rgba(153, 102, 255, 0.2)',
-      'rgba(201, 203, 207, 0.2)'
-    ],
-    borderColor: [
-      'rgb(255, 99, 132)',
-      'rgb(255, 159, 64)',
-      'rgb(255, 205, 86)',
-      'rgb(75, 192, 192)',
-      'rgb(54, 162, 235)',
-      'rgb(153, 102, 255)',
-      'rgb(255, 99, 132)',
-      'rgb(255, 159, 64)',
-      'rgb(255, 205, 86)',
-      'rgb(75, 192, 192)',
-      'rgb(54, 162, 235)',
-      'rgb(153, 102, 255)',
-      'rgb(201, 203, 207)'
-    ],
-        borderWidth: 1
-      }]
-    },
-    options: {
-        indexAxis: 'y',
-      scales: {
-        y: {
-          beginAtZero: true
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: carreras,
+            datasets: [{
+                label: 'Cantidad de Alumnos por Carrera',
+                data: cantidadAlumnosPorCarrera,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
+                ],
+                borderColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(153, 102, 255)',
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(153, 102, 255)',
+                    'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            animation: {
+                duration: 2000,
+                easing: 'easeOutBounce'
+            }
         }
-      },
-      animation: {
-        duration: 2000,
-        easing: 'easeOutBounce'
-      }
-    }
-  });
+    });
+
+
+    new Chart(ctxAge, {
+        type: 'polarArea',
+        data: {
+            labels: ["19 o menos", "20-30"],
+            datasets: [{
+                label: 'Cantidad de Alumnos por Rango de Edad',
+                data: cantidadAlumnosPorCarrera,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
+                ],
+                borderColor: [
+                    'rgb(75, 192, 192)',
+                    'rgb(255, 159, 64)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(255, 99, 132)',
+                    'rgb(153, 102, 255)',
+                    'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            animation: {
+                duration: 2000,
+                easing: 'easeOutBounce'
+            }
+        }
+    });
+
+
 </script>
