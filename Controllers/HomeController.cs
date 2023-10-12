@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Proyecto.Data;
 using Proyecto.Models;
 
@@ -24,6 +25,37 @@ public class HomeController : Controller
     public async Task<IActionResult> IndexAsync()
     {
         await InicializarPermisosUsuario();
+
+        // Obtener la lista de carreras para el array de etiquetas de carreras.
+        var carreras = await _contexto.Carreras
+            .OrderBy(c => c.Nombre)
+            .ThenBy(c => c.Duracion)
+            .Select(c => c.Nombre) // Solo se selecciona el nombre de la carrera.
+            .ToListAsync();
+
+        
+        // Obtener la lista de carreras desde la base de datos, esta no se pasa a la vista
+        var carrerasList = await _contexto.Carreras
+            .OrderBy(c => c.Nombre)
+            .ThenBy(c => c.Duracion)
+            .ToListAsync();
+
+
+        var cantidadAlumnosPorCarrera = new List<int>();
+        foreach (var carrera in carrerasList)
+        {
+            var cantidad = await _contexto.Alumnos
+                .Where(a => a.Carrera.Nombre == carrera.Nombre)
+                .CountAsync();
+            cantidadAlumnosPorCarrera.Add(cantidad);
+        }
+
+        // Pasar la lista de cantidades de alumnos al modelo
+        ViewData["CantidadAlumnosPorCarrera"] = cantidadAlumnosPorCarrera;
+
+        // Pasar la lista de carreras al modelo
+        ViewData["Carreras"] = carreras;
+
         return View();
     }
 
