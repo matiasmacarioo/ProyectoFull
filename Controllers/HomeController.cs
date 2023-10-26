@@ -40,6 +40,10 @@ public class HomeController : Controller
             .ThenBy(c => c.Duracion)
             .ToListAsync();
 
+        var alumnosList = await _contexto.Alumnos
+            .OrderBy(c => c.Nombre)
+            .ToListAsync();
+
 
         var cantidadAlumnosPorCarrera = new List<int>();
         foreach (var carrera in carrerasList)
@@ -52,6 +56,8 @@ public class HomeController : Controller
 
         // Pasar la lista de cantidades de alumnos al modelo
         ViewData["CantidadAlumnosPorCarrera"] = cantidadAlumnosPorCarrera;
+        
+        ViewData["Alumnos"] = alumnosList;
 
         // Pasar la lista de carreras al modelo
         ViewData["Carreras"] = carreras;

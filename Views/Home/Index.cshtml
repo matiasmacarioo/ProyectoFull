@@ -27,11 +27,44 @@
 
 
 <script src="~/js/chart4.4.js"></script>
+
+@section scripts {
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
 <script>
     const ctx = document.getElementById('myChart');
     const ctxAge = document.getElementById('myAgeChart');
     const carreras = @Html.Raw(Json.Serialize(ViewData["Carreras"]));
     const cantidadAlumnosPorCarrera = @Html.Raw(Json.Serialize(ViewData["CantidadAlumnosPorCarrera"]));
+    const alumnos = @Html.Raw(Json.Serialize(ViewData["Alumnos"]));
+
+    console.log(alumnos)
+
+    // Definir los rangos de edad y sus límites
+    var rangosEdad = {
+        "Secundario": 0,
+        "Terciario": 0
+    };
+
+    $.each(alumnos, function (index, alumnos) {
+    let edad = alumnos.edad;
+    console.log("edad del alumno " + index + ": " + edad);
+
+    if (edad < 18) {
+        rangosEdad["Secundario"]++;
+    } else {
+        rangosEdad["Terciario"]++;
+    }
+});
+
+
+    console.log(rangosEdad);
+
+     // Crear arrays para almacenar los nombres de los rangos de edad y la cantidad de clientes en cada rango
+        var nombresRangosEdad = Object.keys(rangosEdad);
+        var cantidadClientesPorRango = Object.values(rangosEdad);
 
     new Chart(ctx, {
         type: 'bar',
@@ -91,10 +124,10 @@
     new Chart(ctxAge, {
         type: 'polarArea',
         data: {
-            labels: ["19 o menos", "20-30"],
+            labels: nombresRangosEdad,
             datasets: [{
                 label: 'Cantidad de Alumnos por Rango de Edad',
-                data: cantidadAlumnosPorCarrera,
+                data: cantidadClientesPorRango,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(255, 159, 64, 0.2)',
@@ -133,3 +166,5 @@
 
 
 </script>
+
+}

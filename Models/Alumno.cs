@@ -16,6 +16,15 @@ namespace Proyecto.Models
         public DateTime FechaNacimiento { get; set; }
 
         [NotMapped]
+        public int Edad
+        {
+            get
+            {
+                return DateTime.Now.Year - FechaNacimiento.Year;
+            }
+        }
+
+        [NotMapped]
         public string FechaString { get => FechaNacimiento.ToString("yyyy-MM-dd"); }
 
         [ForeignKey("Carrera")]
