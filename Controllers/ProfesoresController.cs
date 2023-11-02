@@ -78,8 +78,36 @@ namespace Proyecto.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, string nombre, DateTime fechaNacimiento, int carreraID, string direccion, int documento, string email)
         {
-
+            var idRelacionar = string.Empty;
             var profesor = await _context.Profesores.FindAsync(id);
+            var usuario = await _userManager.FindByEmailAsync(profesor.Email);
+            
+            // Verificar si el correo nuevo ya existe en "Profesores"
+            var correoExisteEnProfesores = await _context.Profesores.AnyAsync(c => c.Email == email);
+
+            // Verificar si el correo electrónico ha cambiado y no existe otro Profesor con ese correo 
+            if (profesor.Email != email || !correoExisteEnProfesores)
+            {
+                if (usuario != null)
+                {
+                    // Actualizar Usuario en Identity
+                    usuario.Email = email;
+                    usuario.UserName = email;
+                    usuario.EmailConfirmed = true;
+                    await _userManager.UpdateAsync(usuario);
+                }
+            }
+
+            if (usuario != null)
+            {
+                idRelacionar = usuario.Id;
+            }
+
+            if (idRelacionar != string.Empty)
+            {
+                profesor.IdentityID = idRelacionar;
+            }
+
             if (profesor != null)
             {
                 profesor.Nombre = nombre;
