@@ -5,9 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Proyecto.Models;
 using Proyecto.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Proyecto.Controllers
 {
+ 
+ [Authorize]
     public class TareasController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -27,6 +30,7 @@ namespace Proyecto.Controllers
             return View(tareas);
         }
 
+        [Authorize(Roles = "Profesor,Administrador")]
         [HttpPost]
         public async Task<IActionResult> Create(string titulo, string descripcion, DateTime fecha, DateTime fechaVencimiento, int asignaturaID, string usuarioID)
         {
@@ -36,6 +40,7 @@ namespace Proyecto.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Profesor,Administrador")]
         [HttpPost]
         public async Task<IActionResult> Edit(int id, string titulo, string descripcion, DateTime fecha, DateTime fechaVencimiento, int asignaturaID, string usuarioID)
         {
@@ -54,6 +59,7 @@ namespace Proyecto.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Profesor,Administrador")]
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {

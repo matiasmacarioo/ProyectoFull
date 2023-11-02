@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Proyecto.Models;
 using Proyecto.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Proyecto.Controllers
 {
@@ -33,6 +34,7 @@ namespace Proyecto.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Create(string nombre, DateTime fechaNacimiento, int carreraID, string direccion, int documento, string email)
         {
             var idRelacionar = string.Empty;
@@ -76,6 +78,7 @@ namespace Proyecto.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Edit(int id, string nombre, DateTime fechaNacimiento, int carreraID, string direccion, int documento, string email)
         {
             var idRelacionar = string.Empty;
@@ -94,7 +97,12 @@ namespace Proyecto.Controllers
                     usuario.Email = email;
                     usuario.UserName = email;
                     usuario.EmailConfirmed = true;
-                    await _userManager.UpdateAsync(usuario);
+                    var result = await _userManager.UpdateAsync(usuario);
+                     if (result.Succeeded)
+                    {
+                        // Asignar el rol de "Profesor"
+                        await _userManager.AddToRoleAsync(usuario, "profesor");
+                    }
                 }
             }
 
@@ -126,6 +134,7 @@ namespace Proyecto.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Delete(int id)
         {
             var profesor = await _context.Profesores.FindAsync(id);

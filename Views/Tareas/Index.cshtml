@@ -7,9 +7,13 @@
 
 <div class="container">
     <div class="d-flex align-items-center justify-content-center">
+       
+       @if(User.IsInRole("Profesor")){
         <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
             Crear
         </button>
+       }
+
         @* @using (Html.BeginForm("GenerateReport", "Report", new { reportName = "Tareas" }, FormMethod.Post))
         {
         <button type="submit" class="btn btn-dark m-1">Generar PDF</button>
@@ -102,7 +106,9 @@
                 <th>Usuario</th>
                 <th>Fecha</th>
                 <th>Vencimiento</th>
+                @if(User.IsInRole("Profesor")){
                 <th class="text-center">Acciones</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -115,16 +121,19 @@
                     <td>@tarea.Usuario</td>
                     <td>@tarea.Fecha.ToString("dd-MM-yyyy")</td>
                     <td>@tarea.FechaVencimiento.ToString("dd-MM-yyyy")</td>
+
+                    @if(User.IsInRole("Profesor")){
                     <td class="text-center">
                         <button
                             onclick="pasarDatos(@tarea.TareaID, '@tarea.Titulo', '@tarea.Descripcion', @tarea.AsignaturaID, '@tarea.UsuarioID', '@tarea.FechaString', '@tarea.FechaVencimientoString')"
-                            type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
+                            type="button" class="btn btn-dark m-1" data-bs-toggle="modal" data-bs-target="#Modal">
                             Editar
                         </button>
                         <form asp-action="Delete" asp-controller="Tareas" asp-route-id="@tarea.TareaID" class="d-inline">
-                            <button class="btn btn-dark" type="submit">Eliminar</button>
+                            <button class="btn btn-dark m-1" type="submit">Eliminar</button>
                         </form>
                     </td>
+                    }
                 </tr>
             }
         </tbody>
