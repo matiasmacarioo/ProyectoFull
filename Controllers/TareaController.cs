@@ -39,6 +39,14 @@ namespace Proyecto.Controllers
                 {
                     tareas =  _context.Tareas?.Include(a => a.Asignatura).OrderByDescending(a => a.Fecha).Where(t => t.Asignatura.CarreraID == alumno.CarreraID).ToList();
                 }
+
+                // Encontrar profesor por su campo IdentityID igual al id del usuario identity.
+                var profesor = _context.Profesores.Where(a => a.IdentityID == usuario.Id).FirstOrDefault();
+                // Cuscar tareas de la carrera del profesor que inició sesión.
+                if (profesor != null)
+                {
+                    tareas =  _context.Tareas?.Include(a => a.Asignatura).OrderByDescending(a => a.Fecha).Where(t => t.Asignatura.CarreraID == profesor.CarreraID).ToList();
+                }
             }
             var asignaturas = _context.Asignaturas?.ToList();
             ViewBag.AsignaturasList = new SelectList(asignaturas, "AsignaturaID", "Nombre");
