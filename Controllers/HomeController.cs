@@ -135,6 +135,38 @@ public class HomeController : Controller
             }
         }
 
+        var alumnosList = await _contexto.Alumnos.ToListAsync();
+
+        if (alumnosList.Count > 0)
+        {
+            var idRelacionar = string.Empty;
+
+            foreach (var alumno in alumnosList)
+            {
+                var usuarioAlumno = await _userManager.FindByEmailAsync(alumno.Email);
+                if (usuarioAlumno == null)
+                {
+                    // El usuario no existe, así que lo creamos
+                    var nuevoUsuarioAlumno = new IdentityUser { UserName = alumno.Email, Email = alumno.Email, EmailConfirmed = true };
+                    var result = await _userManager.CreateAsync(nuevoUsuarioAlumno, "alumno"); //contraseña: alumno
+                    idRelacionar = usuario.Id;
+                    if (result.Succeeded)
+                    {
+                        // Asignar el rol de "Alumno" al nuevo alumno
+                        await _userManager.AddToRoleAsync(nuevoUsuarioAlumno, "alumno");
+                    }
+                }
+                // Si el usuario ya existe relacionarlo con el alumno
+                 if (usuarioAlumno != null)
+                {
+                    idRelacionar = usuarioAlumno.Id;
+                }
+                alumno.IdentityID = idRelacionar;
+
+                await _contexto.SaveChangesAsync();
+            }
+        }
+
         return Json(creado);
     }
 
