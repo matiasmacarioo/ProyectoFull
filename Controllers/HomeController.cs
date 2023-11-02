@@ -103,6 +103,38 @@ public class HomeController : Controller
             creado = result.Succeeded;
         }
 
+        var profesoresList = await _contexto.Profesores.ToListAsync();
+
+        if (profesoresList.Count > 0)
+        {
+            var idRelacionar = string.Empty;
+
+            foreach (var profesor in profesoresList)
+            {
+                var usuarioProfesor = await _userManager.FindByEmailAsync(profesor.Email);
+                if (usuarioProfesor == null)
+                {
+                    // El usuario no existe, así que lo creamos
+                    var nuevoUsuarioProfesor = new IdentityUser { UserName = profesor.Email, Email = profesor.Email, EmailConfirmed = true };
+                    var result = await _userManager.CreateAsync(nuevoUsuarioProfesor, "profesor");
+                    idRelacionar = usuario.Id;
+                    if (result.Succeeded)
+                    {
+                        // Asignar el rol de "Profesor" al nuevo profesor
+                        await _userManager.AddToRoleAsync(nuevoUsuarioProfesor, "profesor");
+                    }
+                }
+                // Si el usuario ya existe relacionarlo con el profesor
+                 if (usuarioProfesor != null)
+                {
+                    idRelacionar = usuarioProfesor.Id;
+                }
+                profesor.IdentityID = idRelacionar;
+
+                await _contexto.SaveChangesAsync();
+            }
+        }
+
         return Json(creado);
     }
 
