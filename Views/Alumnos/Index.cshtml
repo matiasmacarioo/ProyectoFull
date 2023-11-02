@@ -1,14 +1,18 @@
 @model List<Alumno>
 
 <div class="col-6 mx-auto">
-    <h1>Alumnos</h1><hr><br>
+    <h1>Alumnos</h1>
+    <hr><br>
 </div>
 
 <div class="container">
     <div class="d-flex align-items-center justify-content-center">
-        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
-            Crear
-        </button>
+        @if (User.IsInRole("Administrador"))
+        {
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
+                Crear
+            </button>
+        }
         @using (Html.BeginForm("GenerateReport", "Report", new { reportName = "Alumnos" }, FormMethod.Post))
         {
             <button type="submit" class="btn btn-dark m-1">Generar PDF</button>
@@ -59,8 +63,8 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="email">Email:</label>
-                                    <input type="text" id="email" name="email" placeholder="Email"
-                                        class="form-control" required>
+                                    <input type="text" id="email" name="email" placeholder="Email" class="form-control"
+                                        required>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -95,29 +99,36 @@
                 <th>Documento</th>
                 <th>Dirección</th>
                 <th>Email</th>
-                <th class="text-center">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var alumno in Model)
-            {
-                <tr>
-                    <td>@alumno.Nombre</td>
-                    <td>@alumno.FechaNacimiento.ToString("dd-MM-yyyy")</td>
-                    <td>@alumno.Carrera.Nombre</td>
-                    <td>@alumno.Documento</td>
-                    <td>@alumno.Direccion</td>
-                    <td>@alumno.Email</td>
-                    <td class="text-center">
-                        <button onclick="pasarDatos(@alumno.AlumnoID, '@alumno.Nombre', @alumno.CarreraID, '@alumno.FechaString', @alumno.Documento, '@alumno.Direccion', '@alumno.Email')" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
-                            Editar
-                        </button>
-                        <form asp-action="Delete" asp-controller="Alumnos" asp-route-id="@alumno.AlumnoID" class="d-inline">
-                            <button class="btn btn-dark" type="submit">Eliminar</button>
-                        </form>
-                    </td>
+                @if (User.IsInRole("Administrador")){
+                    <th class="text-center">Acciones</th>
+                    }
                 </tr>
-            }
+            </thead>
+            <tbody>
+                @foreach (var alumno in Model)
+                {
+                    <tr>
+                        <td>@alumno.Nombre</td>
+                        <td>@alumno.FechaNacimiento.ToString("dd-MM-yyyy")</td>
+                        <td>@alumno.Carrera.Nombre</td>
+                        <td>@alumno.Documento</td>
+                        <td>@alumno.Direccion</td>
+                        <td>@alumno.Email</td>
+                        @if (User.IsInRole("Administrador"))
+                        {
+                            <td class="text-center">
+                                <button
+                                    onclick="pasarDatos(@alumno.AlumnoID, '@alumno.Nombre', @alumno.CarreraID, '@alumno.FechaString', @alumno.Documento, '@alumno.Direccion', '@alumno.Email')"
+                                    type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
+                                    Editar
+                                </button>
+                                <form asp-action="Delete" asp-controller="Alumnos" asp-route-id="@alumno.AlumnoID" class="d-inline">
+                                    <button class="btn btn-dark" type="submit">Eliminar</button>
+                                </form>
+                            </td>
+                        }
+                    </tr>
+                }
         </tbody>
     </table>
 </div>

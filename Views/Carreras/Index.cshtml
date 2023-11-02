@@ -1,14 +1,18 @@
 @model List<Carrera>
 
 <div class="col-6 mx-auto">
-    <h1>Carreras</h1><hr><br>
+    <h1>Carreras</h1>
+    <hr><br>
 </div>
 
 <div class="container">
     <div class="d-flex align-items-center justify-content-center">
-        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
-            Crear
-        </button>
+        @if (User.IsInRole("Administrador"))
+        {
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
+                Crear
+            </button>
+        }
         @using (Html.BeginForm("GenerateReport", "Report", new { reportName = "Carreras" }, FormMethod.Post))
         {
             <button type="submit" class="btn btn-dark m-1">Generar PDF</button>
@@ -31,14 +35,17 @@
                             <div class="col-11">
                                 <div class="form-group">
                                     <label for="nombre">Nombre:</label>
-                                    <input type="text" id="nombre" name="nombre" placeholder="Carrera" class="form-control" required>
+                                    <input type="text" id="nombre" name="nombre" placeholder="Carrera"
+                                        class="form-control" required>
                                 </div>
                             </div>
                             <br>
                             <div class="col-3">
                                 <div class="form-group">
                                     <label for="duracion">Duración:</label>
-                                    <input type="text" id="duracion" name="duracion" placeholder="En años" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+                                    <input type="text" id="duracion" name="duracion" placeholder="En años"
+                                        class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                                        required>
                                 </div>
                             </div>
                         </div>
@@ -58,7 +65,10 @@
             <tr>
                 <th>Nombre</th>
                 <th>Duración</th>
-                <th class="text-center">Acciones</th>
+                @if (User.IsInRole("Administrador"))
+                {
+                    <th class="text-center">Acciones</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -67,14 +77,19 @@
                 <tr>
                     <td>@carrera.Nombre</td>
                     <td>@carrera.Duracion Años</td>
+                @if (User.IsInRole("Administrador"))
+                    {
                     <td class="text-center">
-                        <button onclick="pasarDatos(@carrera.CarreraID, '@carrera.Nombre', @carrera.Duracion)"  type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
+                        <button onclick="pasarDatos(@carrera.CarreraID, '@carrera.Nombre', @carrera.Duracion)" type="button"
+                            class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
                             Editar
                         </button>
-                        <form asp-action="Delete" asp-controller="Carreras" asp-route-id="@carrera.CarreraID" class="d-inline">
+                        <form asp-action="Delete" asp-controller="Carreras" asp-route-id="@carrera.CarreraID"
+                            class="d-inline">
                             <button class="btn btn-dark" type="submit">Eliminar</button>
                         </form>
                     </td>
+                }
                 </tr>
             }
         </tbody>

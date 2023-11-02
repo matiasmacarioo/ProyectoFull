@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Proyecto.Models;
 using Proyecto.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Proyecto.Controllers
 {
@@ -26,6 +27,7 @@ namespace Proyecto.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Create(string nombre, int carreraID)
         {
             var asignatura = new Asignatura { Nombre = nombre, CarreraID = carreraID };
@@ -35,6 +37,7 @@ namespace Proyecto.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Edit(int id, string nombre, int carreraID)
         {
 
@@ -49,6 +52,7 @@ namespace Proyecto.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Delete(int id)
         {
             var asignatura = await _context.Asignaturas.FindAsync(id);
