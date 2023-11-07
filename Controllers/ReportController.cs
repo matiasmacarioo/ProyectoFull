@@ -25,13 +25,14 @@ namespace Proyecto.Controllers
             List<Alumno> alumnosList = _context.Alumnos?.Include(a => a.Carrera).OrderBy(a => a.Carrera.Nombre).ThenBy(a => a.Nombre).ToList();
             List<Profesor> profesoresList = _context.Profesores?.Include(a => a.Carrera).OrderBy(a => a.Nombre).ToList();
             List<Carrera> carrerasList = _context.Carreras.OrderBy(c => c.Nombre).ThenBy(c => c.Duracion).ToList();
+            List<Asignatura> asignaturasList = _context.Asignaturas.OrderBy(c => c.Nombre).ToList();
 
-            var returnString = GenerateReportAsync(reportName, profesoresList, carrerasList, alumnosList);
+            var returnString = GenerateReportAsync(reportName, profesoresList, carrerasList, alumnosList, asignaturasList);
 
             return File(returnString, System.Net.Mime.MediaTypeNames.Application.Octet, reportName + ".pdf");
         }
 
-        public byte[] GenerateReportAsync(string reportName, List<Profesor> profesoresList, List<Carrera> carrerasList, List<Alumno> alumnosList)
+        public byte[] GenerateReportAsync(string reportName, List<Profesor> profesoresList, List<Carrera> carrerasList, List<Alumno> alumnosList, List<Asignatura> asignaturasList)
         {
             string fileDirPath = Assembly.GetExecutingAssembly().Location.Replace("ReportAPI.dll", string.Empty);
             string rdlcFilePath = string.Format("{0}ReportFiles\\{1}.rdlc", fileDirPath, reportName);
@@ -43,6 +44,7 @@ namespace Proyecto.Controllers
             report.AddDataSource("DataSetProfesor", profesoresList);
             report.AddDataSource("DataSetCarreras", carrerasList);
             report.AddDataSource("DataSetAlumnos", alumnosList);
+            report.AddDataSource("DataSetAsignaturas", asignaturasList);
 
             //var result = report.Execute(GetRenderType("pdf"), 0, parameters);
             //var result = report.Execute(RenderType.Pdf, 1);
