@@ -26,6 +26,9 @@ namespace TuProyecto.Controllers
         {
             var alumnos = _context.Alumnos?.Include(a => a.Carrera).OrderBy(a => a.Carrera.Nombre).ThenBy(a => a.Nombre).ToList();
             var carreras = _context.Carreras?.ToList();
+            var asignaturas = _context.Asignaturas?.ToList();
+
+            ViewBag.AsignaturasList = new SelectList(asignaturas, "AsignaturaID", "Nombre");
             ViewBag.CarrerasList = new SelectList(carreras, "CarreraID", "Nombre");
             return View(alumnos);
         }
@@ -96,6 +99,44 @@ namespace TuProyecto.Controllers
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));
+        }
+
+         [HttpPost]
+        public async Task<IActionResult> AsociarAsignaturas(int alumnoID, List<int> asignaturas)
+        {
+            try
+            {
+                var alumno = await _context.Alumnos.FindAsync(alumnoID);
+                if (alumno == null)
+                {
+                    return NotFound();
+                }
+
+                // Elimina las relaciones de asignaturas existentes para este alumno.
+                var relacionesAntiguas = _context.AlumnoAsignaturas.Where(pa => pa.AlumnoID == alumnoID);
+                _context.AlumnoAsignaturas.RemoveRange(relacionesAntiguas);
+
+                // Asocia las nuevas asignaturas seleccionadas.
+                foreach (var asignaturaID in asignaturas)
+                {
+                    var alumnoAsignatura = new AlumnoAsignatura
+                    {
+                        AlumnoID = alumnoID,
+                        AsignaturaID = asignaturaID
+                    };
+
+                    // Agrega la nueva relación AlumnoAsignatura a la base de datos.
+                    _context.AlumnoAsignaturas.Add(alumnoAsignatura);
+                }
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
     }
 }

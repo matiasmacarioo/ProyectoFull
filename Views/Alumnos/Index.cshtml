@@ -89,6 +89,39 @@
     </div>
 </div>
 
+
+<!-- Modal para Asociar Asignaturas -->
+<div class="modal fade" id="asociarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Asociar Asignaturas</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="AsociarAsignaturas" asp-controller="Alumnos" method="post">
+                    <input type="hidden" id="alumnoID" name="alumnoID" />
+                    <p class="text-danger">Solo quedarán asociadas al alumno las asignaturas que selecciones en la
+                        siguiente lista:</p>
+                    <!-- Lista de asignaturas disponibles -->
+                    <div class="form-group">
+                        <label for="asignaturasDisponibles">Asignaturas Disponibles:</label>
+                        <select id="asignaturasDisponibles" name="asignaturas" class="form-control" multiple>
+                            <option disabled value="">Selecciona la/s asignatura/s a asociar (ctrl+click)</option>
+                            @foreach (var asignatura in ViewBag.AsignaturasList)
+                            {
+                                <option value="@asignatura.Value">@asignatura.Text</option>
+                            }
+                        </select>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-dark">Asociar Asignaturas</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container col-10">
     <table class="table">
         <thead>
@@ -99,36 +132,41 @@
                 <th>Documento</th>
                 <th>Dirección</th>
                 <th>Email</th>
-                @if (User.IsInRole("Administrador")){
+                @if (User.IsInRole("Administrador"))
+                {
                     <th class="text-center">Acciones</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var alumno in Model)
+            {
+                <tr>
+                    <td>@alumno.Nombre</td>
+                    <td>@alumno.FechaNacimiento.ToString("dd-MM-yyyy")</td>
+                    <td>@alumno.Carrera.Nombre</td>
+                    <td>@alumno.Documento</td>
+                    <td>@alumno.Direccion</td>
+                    <td>@alumno.Email</td>
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <td class="text-center">
+                            <button
+                                onclick="pasarDatos(@alumno.AlumnoID, '@alumno.Nombre', @alumno.CarreraID, '@alumno.FechaString', @alumno.Documento, '@alumno.Direccion', '@alumno.Email')"
+                                type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
+                                Editar
+                            </button>
+                            <button onclick="asociarAsignaturas(@alumno.AlumnoID)" type="button" class="btn btn-dark"
+                                data-bs-toggle="modal" data-bs-target="#asociarModal">
+                                Asignaturas
+                            </button>
+                            <form asp-action="Delete" asp-controller="Alumnos" asp-route-id="@alumno.AlumnoID" class="d-inline">
+                                <button class="btn btn-dark" type="submit">Eliminar</button>
+                            </form>
+                        </td>
                     }
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var alumno in Model)
-                {
-                    <tr>
-                        <td>@alumno.Nombre</td>
-                        <td>@alumno.FechaNacimiento.ToString("dd-MM-yyyy")</td>
-                        <td>@alumno.Carrera.Nombre</td>
-                        <td>@alumno.Documento</td>
-                        <td>@alumno.Direccion</td>
-                        <td>@alumno.Email</td>
-                        @if (User.IsInRole("Administrador"))
-                        {
-                            <td class="text-center">
-                                <button
-                                    onclick="pasarDatos(@alumno.AlumnoID, '@alumno.Nombre', @alumno.CarreraID, '@alumno.FechaString', @alumno.Documento, '@alumno.Direccion', '@alumno.Email')"
-                                    type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
-                                    Editar
-                                </button>
-                                <form asp-action="Delete" asp-controller="Alumnos" asp-route-id="@alumno.AlumnoID" class="d-inline">
-                                    <button class="btn btn-dark" type="submit">Eliminar</button>
-                                </form>
-                            </td>
-                        }
-                    </tr>
-                }
+            }
         </tbody>
     </table>
 </div>
@@ -144,5 +182,11 @@
         document.getElementById('direccion').value = direccion;
         document.getElementById('email').value = email;
         console.log(id, nombre, carrera, fecha, documento, direccion, email);
+    }
+</script>
+
+<script>
+    function asociarAsignaturas(alumnoID) {
+        document.getElementById("alumnoID").value = alumnoID;
     }
 </script>
