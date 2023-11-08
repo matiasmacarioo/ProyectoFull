@@ -1,0 +1,65 @@
+@model IEnumerable<Proyecto.Models.AlumnoAsignatura>
+
+<h2>Asignaturas por Alumno.</h2>
+
+<div class="container">
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Nombre del Alumno</th>
+                <th>Asignaturas</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var grupo in Model.GroupBy(pa => pa.Alumno.Nombre))
+            {
+                <tr>
+                    <td>@grupo.Key</td>
+                    <td>
+                        <table>
+                            @foreach (var item in grupo)
+                            {
+                                <tr>
+                                    <td>@item.Asignatura.Nombre</td>
+                                </tr>
+                            }
+                        </table>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    <div class="mb-5"><br></div>
+
+    <h2>Alumnos por Asignatura.</h2>
+
+    <!-- Tabla para mostrar los Alumnoes por asignatura -->
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Asignatura</th>
+                <th>Alumnos</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var grupo in Model.GroupBy(pa => pa.Asignatura.Nombre))
+            {
+                <tr>
+                    <td>@grupo.Key</td>
+                    <td>
+                        <table>
+                            @foreach (var item in grupo)
+                            {
+                                <tr>
+                                    <td>@item.Alumno.Nombre</td>
+                                </tr>
+                            }
+                        </table>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

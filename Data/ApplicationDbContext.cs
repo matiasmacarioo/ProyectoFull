@@ -15,6 +15,7 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Proyecto.Models.Profesor>? Profesores { get; set; }
     public DbSet<Proyecto.Models.Asignatura>? Asignaturas { get; set; }
     public DbSet<Proyecto.Models.ProfesorAsignatura>? ProfesorAsignaturas { get; set; }
+    public DbSet<Proyecto.Models.AlumnoAsignatura>? AlumnoAsignaturas { get; set; }
     public DbSet<Proyecto.Models.Tarea>? Tareas { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
