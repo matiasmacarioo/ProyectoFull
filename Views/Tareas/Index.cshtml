@@ -13,11 +13,10 @@
             Crear
         </button>
        }
-
-        @* @using (Html.BeginForm("GenerateReport", "Report", new { reportName = "Tareas" }, FormMethod.Post))
+        @using (Html.BeginForm("GenerateReport", "Report", new { reportName = "Tareas" }, FormMethod.Post))
         {
         <button type="submit" class="btn btn-dark m-1">Generar PDF</button>
-        } *@
+        }
     </div>
 </div>
 <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
