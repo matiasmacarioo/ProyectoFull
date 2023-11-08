@@ -274,7 +274,7 @@ FROM
             </Paragraphs>
             <rd:DefaultName>textbox1</rd:DefaultName>
             <Height>0.43in</Height>
-            <Width>6.32291in</Width>
+            <Width>8.50209in</Width>
             <Style>
               <PaddingLeft>2pt</PaddingLeft>
               <PaddingRight>2pt</PaddingRight>
@@ -286,22 +286,22 @@ FROM
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1in</Width>
+                  <Width>1.45833in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.32291in</Width>
+                  <Width>2.72291in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1in</Width>
+                  <Width>0.87918in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1in</Width>
+                  <Width>0.925in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1in</Width>
+                  <Width>1.2in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1in</Width>
+                  <Width>1.31667in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -410,7 +410,7 @@ FROM
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Fecha Vencimiento</Value>
+                                  <Value>Vencimiento</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -707,7 +707,7 @@ FROM
             <DataSetName>DataSetTareas</DataSetName>
             <Top>0.49944in</Top>
             <Height>0.5in</Height>
-            <Width>6.32291in</Width>
+            <Width>8.50209in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -716,11 +716,13 @@ FROM
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>0.99944in</Height>
+        <Height>3.96611in</Height>
         <Style />
       </Body>
-      <Width>6.35209in</Width>
+      <Width>8.50209in</Width>
       <Page>
+        <PageHeight>8.5in</PageHeight>
+        <PageWidth>11in</PageWidth>
         <LeftMargin>1in</LeftMargin>
         <RightMargin>1in</RightMargin>
         <TopMargin>1in</TopMargin>
