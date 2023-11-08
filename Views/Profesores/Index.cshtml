@@ -144,7 +144,7 @@
                     <td>@profesor.Documento</td>
                     <td>@profesor.Direccion</td>
                     <td>@profesor.Email</td>
-                    <td class="text-center">
+                    <td class="text-center btn-group">
                         @if(User.IsInRole("Administrador")){
                         <button
                             onclick="pasarDatos(@profesor.ProfesorID, '@profesor.Nombre', @profesor.CarreraID, '@profesor.FechaString', '@profesor.Documento', '@profesor.Direccion', '@profesor.Email')"

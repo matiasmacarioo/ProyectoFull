@@ -150,7 +150,7 @@
                     <td>@alumno.Email</td>
                     @if (User.IsInRole("Administrador"))
                     {
-                        <td class="text-center">
+                        <td class="text-center btn-group">
                             <button
                                 onclick="pasarDatos(@alumno.AlumnoID, '@alumno.Nombre', @alumno.CarreraID, '@alumno.FechaString', @alumno.Documento, '@alumno.Direccion', '@alumno.Email')"
                                 type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
