@@ -131,7 +131,9 @@
                 <th>Documento</th>
                 <th>Dirección</th>
                 <th>Email</th>
-                <th class="text-center">Acciones</th>
+                @if(User.IsInRole("Administrador") || User.IsInRole("Profesor")){
+                    <th class="text-center">Acciones</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -151,12 +153,10 @@
                             type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
                             Editar
                         </button>
-                        }
                         <button onclick="asociarAsignaturas(@profesor.ProfesorID)" type="button" class="btn btn-dark"
                             data-bs-toggle="modal" data-bs-target="#asociarModal">
                             Asignaturas
                         </button>
-                        @if(User.IsInRole("Administrador")){
                         <form asp-action="Delete" asp-controller="Profesores" asp-route-id="@profesor.ProfesorID"
                             class="d-inline">
                             <button class="btn btn-dark" type="submit">Eliminar</button>

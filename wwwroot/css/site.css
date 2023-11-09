@@ -22,6 +22,15 @@ body {
 
 .table{
   color: black;
+  border-color: rgba(255, 255, 255, 0.4);
+  --bs-table-striped-bg: rgba(78, 75, 75, 0.3);
+  margin-bottom: 0;
+  border-collapse: separate;
+  border-spacing: 0 4px;
+}
+
+.table>tbody>tr:hover {
+  background-color: rgba(201, 201, 201, 0.212);
 }
 
 h1 {
