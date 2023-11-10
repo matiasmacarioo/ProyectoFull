@@ -273,7 +273,7 @@ FROM
             </Paragraphs>
             <rd:DefaultName>textbox1</rd:DefaultName>
             <Height>0.43in</Height>
-            <Width>9.48126in</Width>
+            <Width>8.89792in</Width>
             <Style>
               <PaddingLeft>2pt</PaddingLeft>
               <PaddingRight>2pt</PaddingRight>
@@ -285,10 +285,10 @@ FROM
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.72916in</Width>
+                  <Width>1.61458in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.24374in</Width>
+                  <Width>2.80624in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.69168in</Width>
@@ -297,7 +297,7 @@ FROM
                   <Width>0.68542in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.08541in</Width>
+                  <Width>2.05416in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.04584in</Width>
@@ -742,7 +742,7 @@ FROM
             <DataSetName>DataSetTareas</DataSetName>
             <Top>0.49944in</Top>
             <Height>0.5in</Height>
-            <Width>9.48126in</Width>
+            <Width>8.89792in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -766,10 +766,10 @@ FROM
             </Style>
           </Image>
         </ReportItems>
-        <Height>3.96611in</Height>
+        <Height>1.13278in</Height>
         <Style />
       </Body>
-      <Width>9.48126in</Width>
+      <Width>8.89792in</Width>
       <Page>
         <PageHeight>8.5in</PageHeight>
         <PageWidth>11in</PageWidth>

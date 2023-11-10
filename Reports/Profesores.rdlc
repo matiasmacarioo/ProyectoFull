@@ -121,7 +121,7 @@
             </Paragraphs>
             <rd:DefaultName>textbox1</rd:DefaultName>
             <Height>0.43in</Height>
-            <Width>9.49999in</Width>
+            <Width>8.96874in</Width>
             <Style>
               <PaddingLeft>2pt</PaddingLeft>
               <PaddingRight>2pt</PaddingRight>
@@ -145,10 +145,10 @@
                   <Width>0.875in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.79167in</Width>
+                  <Width>3.42708in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.08333in</Width>
+                  <Width>1.91667in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -601,7 +601,7 @@
             <DataSetName>DataSetProfesor</DataSetName>
             <Top>0.49944in</Top>
             <Height>0.5in</Height>
-            <Width>9.49999in</Width>
+            <Width>8.96874in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -628,7 +628,7 @@
         <Height>0.99944in</Height>
         <Style />
       </Body>
-      <Width>9.53124in</Width>
+      <Width>8.96874in</Width>
       <Page>
         <PageHeight>8.27in</PageHeight>
         <PageWidth>11in</PageWidth>
