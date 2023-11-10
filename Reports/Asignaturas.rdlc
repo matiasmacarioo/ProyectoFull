@@ -9,7 +9,6 @@
         <ConnectString>Data Source=NOBLEX;Initial Catalog=ProyectoFullDB</ConnectString>
         <IntegratedSecurity>true</IntegratedSecurity>
       </ConnectionProperties>
-      <rd:SecurityType>Integrated</rd:SecurityType>
       <rd:DataSourceID>fd439f9b-6ca2-40d2-ba0b-e0dd2df91287</rd:DataSourceID>
     </DataSource>
   </DataSources>
@@ -122,10 +121,10 @@ FROM
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>3.52082in</Width>
+                  <Width>2.98957in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.80209in</Width>
+                  <Width>3.33334in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
