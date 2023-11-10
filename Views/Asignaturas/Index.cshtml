@@ -62,6 +62,41 @@
     </div>
 </div>
 
+<!-- Modal para Asociar Alumnos -->
+<div class="modal fade" id="asociarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Asociar Alumnos</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="AsociarAlumnos" asp-controller="Asignaturas" method="post">
+                    <input type="hidden" id="asignaturaID" name="asignaturaID" />
+                    <p class="text-danger">
+                        Solo quedarán asociados a la asignatura los alumnos que selecciones en la
+                        siguiente lista:
+                    </p>
+                    <!-- Lista de alumnos disponibles -->
+                    <div class="form-group">
+                        <label for="alumnosDisponibles">Alumnos Disponibles:</label>
+                        <select id="alumnosDisponibles" name="alumnos" class="form-control" multiple>
+                            <option disabled value="">Selecciona el/los alumno/s a asociar (ctrl+click)</option>
+                            @foreach (var alumno in ViewBag.AlumnosList)
+                            {
+                                <option value="@alumno.Value">@alumno.Text</option>
+                            }
+                        </select>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-dark">Asociar Alumnos</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="container col-10">
     <table class="table">
         <thead>
@@ -87,6 +122,10 @@
                                 type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
                                 Editar
                             </button>
+                            <button onclick="asociarAlumnos(@asignatura.AsignaturaID)" type="button" class="btn btn-dark"
+                                    data-bs-toggle="modal" data-bs-target="#asociarModal">
+                                Alumnos
+                            </button>
                             <form asp-action="Delete" asp-controller="Asignaturas" asp-route-id="@asignatura.AsignaturaID"
                                 class="d-inline">
                                 <button class="btn btn-dark" type="submit">Eliminar</button>
@@ -106,5 +145,11 @@
         document.getElementById('nombre').value = nombre;
         document.getElementById('carreraID').value = carrera;
         console.log(id, nombre, carrera);
+    }
+</script>
+
+<script>
+    function asociarAlumnos(asignaturaID) {
+        document.getElementById("asignaturaID").value = asignaturaID;
     }
 </script>
