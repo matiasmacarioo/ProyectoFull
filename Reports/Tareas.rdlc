@@ -9,7 +9,6 @@
         <ConnectString>Data Source=NOBLEX;Initial Catalog=ProyectoFullDB</ConnectString>
         <IntegratedSecurity>true</IntegratedSecurity>
       </ConnectionProperties>
-      <rd:SecurityType>Integrated</rd:SecurityType>
       <rd:DataSourceID>fd439f9b-6ca2-40d2-ba0b-e0dd2df91287</rd:DataSourceID>
     </DataSource>
   </DataSources>
@@ -289,19 +288,19 @@ FROM
                   <Width>1.45833in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.72291in</Width>
+                  <Width>2.61874in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.87918in</Width>
+                  <Width>0.69168in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.925in</Width>
+                  <Width>0.68542in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.2in</Width>
+                  <Width>1.84583in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.31667in</Width>
+                  <Width>1.04584in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -383,7 +382,9 @@ FROM
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox7</rd:DefaultName>
@@ -410,11 +411,13 @@ FROM
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Vencimiento</Value>
+                                  <Value>Fcha Vcto</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox9</rd:DefaultName>
@@ -569,10 +572,14 @@ FROM
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!Fecha.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <Format>d/M/yy</Format>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Fecha</rd:DefaultName>
@@ -599,10 +606,14 @@ FROM
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!FechaVencimiento.Value</Value>
-                                  <Style />
+                                  <Style>
+                                    <Format>d/M/yy</Format>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>FechaVencimiento</rd:DefaultName>
@@ -707,7 +718,7 @@ FROM
             <DataSetName>DataSetTareas</DataSetName>
             <Top>0.49944in</Top>
             <Height>0.5in</Height>
-            <Width>8.50209in</Width>
+            <Width>8.34584in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
