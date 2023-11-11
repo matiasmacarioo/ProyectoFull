@@ -74,14 +74,14 @@
                 <form asp-action="AsociarAlumnos" asp-controller="Asignaturas" method="post">
                     <input type="hidden" id="asignaturaID" name="asignaturaID" />
                     <p class="text-danger">
-                        Solo quedar·n asociados a la asignatura los alumnos que selecciones en la
+                        Solo quedar√°n asociados a la asignatura los alumnos que selecciones en la
                         siguiente lista:
                     </p>
                     <!-- Lista de alumnos disponibles -->
                     <div class="form-group">
                         <label for="alumnosDisponibles">Alumnos Disponibles:</label>
-                        <select id="alumnosDisponibles" name="alumnos" class="form-control" multiple>
-                            <option disabled value="">Selecciona el/los alumno/s a asociar (ctrl+click)</option>
+                        <select id="alumnosDisponibles" name="alumnos" class="form-control" multiple="multiple">
+                            <option disabled value="">Selecciona los alumnos a asociar</option>
                             @foreach (var alumno in ViewBag.AlumnosList)
                             {
                                 <option value="@alumno.Value">@alumno.Text</option>
@@ -138,6 +138,8 @@
     </table>
 </div>
 
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
 <script>
     function pasarDatos(id, nombre, carrera) {
         var form = document.getElementById('formulario');
@@ -146,10 +148,23 @@
         document.getElementById('carreraID').value = carrera;
         console.log(id, nombre, carrera);
     }
-</script>
 
-<script>
     function asociarAlumnos(asignaturaID) {
         document.getElementById("asignaturaID").value = asignaturaID;
     }
+
+    $('option').mousedown(function(e) {
+    e.preventDefault();
+    var originalScrollTop = $(this).parent().scrollTop();
+    console.log(originalScrollTop);
+    $(this).prop('selected', $(this).prop('selected') ? false : true);
+    var self = this;
+    $(this).parent().focus();
+    setTimeout(function() {
+        $(self).parent().scrollTop(originalScrollTop);
+    }, 0);
+    
+    return false;
+    });
+
 </script>

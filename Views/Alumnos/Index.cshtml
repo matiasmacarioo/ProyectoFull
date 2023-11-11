@@ -107,7 +107,7 @@
                     <div class="form-group">
                         <label for="asignaturasDisponibles">Asignaturas Disponibles:</label>
                         <select id="asignaturasDisponibles" name="asignaturas" class="form-control" multiple>
-                            <option disabled value="">Selecciona la/s asignatura/s a asociar (ctrl+click)</option>
+                            <option disabled value="">Selecciona la/s asignatura/s a asociar</option>
                             @foreach (var asignatura in ViewBag.AsignaturasList)
                             {
                                 <option value="@asignatura.Value">@asignatura.Text</option>
@@ -171,6 +171,9 @@
     </table>
 </div>
 
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+
 <script>
     function pasarDatos(id, nombre, carrera, fecha, documento, direccion, email) {
         var form = document.getElementById('formulario');
@@ -183,10 +186,23 @@
         document.getElementById('email').value = email;
         console.log(id, nombre, carrera, fecha, documento, direccion, email);
     }
-</script>
 
-<script>
     function asociarAsignaturas(alumnoID) {
         document.getElementById("alumnoID").value = alumnoID;
     }
+
+        $('option').mousedown(function(e) {
+    e.preventDefault();
+    var originalScrollTop = $(this).parent().scrollTop();
+    console.log(originalScrollTop);
+    $(this).prop('selected', $(this).prop('selected') ? false : true);
+    var self = this;
+    $(this).parent().focus();
+    setTimeout(function() {
+        $(self).parent().scrollTop(originalScrollTop);
+    }, 0);
+    
+    return false;
+    });
+
 </script>
