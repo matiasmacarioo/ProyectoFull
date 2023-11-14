@@ -108,10 +108,6 @@
                         <label for="asignaturasDisponibles">Asignaturas Disponibles:</label>
                         <select id="asignaturasDisponibles" name="asignaturas" class="form-control" multiple>
                             <option disabled value="">Selecciona la/s asignatura/s a asociar</option>
-                            @foreach (var asignatura in ViewBag.AsignaturasList)
-                            {
-                                <option value="@asignatura.Value">@asignatura.Text</option>
-                            }
                         </select>
                     </div>
                     <br>
@@ -156,7 +152,7 @@
                                 type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
                                 Editar
                             </button>
-                            <button onclick="asociarAsignaturas(@alumno.AlumnoID)" type="button" class="btn btn-dark"
+                            <button onclick="actualizarAsignaturas(@alumno.AlumnoID)" type="button" class="btn btn-dark"
                                 data-bs-toggle="modal" data-bs-target="#asociarModal">
                                 Asignaturas
                             </button>
@@ -187,22 +183,54 @@
         console.log(id, nombre, carrera, fecha, documento, direccion, email);
     }
 
-    function asociarAsignaturas(alumnoID) {
+    function actualizarAsignaturas(alumnoID) {
+        // actualizamos el valor de asignatura seleccionada
         document.getElementById("alumnoID").value = alumnoID;
+
+        // Realizar una solicitud AJAX para actualizar la Lista de alumnos
+        $.ajax({
+        type: 'POST',
+        url: '/Alumnos/ActualizarListaAsignaturas',
+        data: { alumnoID: alumnoID },
+        success: function (data) {
+            // Limpiar el contenido actual del select
+            $('#asignaturasDisponibles').empty();
+
+            // Agregar la nueva lista de asignaturas al select
+            $.each(data, function (index, asignatura) {
+                $('#asignaturasDisponibles').append($('<option>', {
+                    value: asignatura.id,
+                    text: asignatura.nombre
+                }));
+            });
+
+            // Abrir el modal después de recibir la lista de alumnos
+            $('#asociarModal').modal('show');
+
+            console.log(data);
+        },
+        error: function (error) {
+            console.log("Error en la solicitud AJAX:", error);
+        }
+    });
     }
 
-        $('option').mousedown(function(e) {
-    e.preventDefault();
-    var originalScrollTop = $(this).parent().scrollTop();
-    console.log(originalScrollTop);
-    $(this).prop('selected', $(this).prop('selected') ? false : true);
-    var self = this;
-    $(this).parent().focus();
-    setTimeout(function() {
-        $(self).parent().scrollTop(originalScrollTop);
-    }, 0);
-    
-    return false;
+    // js para no presionar ctrl al seleccionar alumnos
+    $('#asignaturasDisponibles').on('mousedown', 'option', function (e) {
+        e.preventDefault();
+        
+        var originalScrollTop = $(this).parent().scrollTop();
+        
+        $(this).prop('selected', !$(this).prop('selected'));
+        
+        var self = this;
+        $(this).parent().focus();
+        
+        setTimeout(function () {
+            $(self).parent().scrollTop(originalScrollTop);
+        }, 0);
+
+        return false;
     });
 
 </script>

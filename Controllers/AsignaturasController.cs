@@ -38,7 +38,7 @@ namespace Proyecto.Controllers
             // Obtener la lista actualizada de alumnos según la CarreraID de la asignatura
             var alumnos = _context.Alumnos?
                 .Where(a => a.CarreraID == carreraIDAsignatura)
-                .OrderByDescending(a => a.Nombre)
+                .OrderBy(a => a.Nombre)
                 .Select(a => new { Id = a.AlumnoID, Nombre = a.Nombre })
                 .ToList();
 

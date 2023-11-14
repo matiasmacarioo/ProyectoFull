@@ -170,14 +170,11 @@
 
             // Abrir el modal después de recibir la lista de alumnos
             $('#asociarModal').modal('show');
-
-            console.log(data);
         },
         error: function (error) {
             console.log("Error en la solicitud AJAX:", error);
         }
     });
-
     }
 
     // js para no presionar ctrl al seleccionar alumnos
@@ -197,5 +194,5 @@
 
         return false;
     });
-    
+
 </script>

@@ -32,6 +32,22 @@ namespace TuProyecto.Controllers
             ViewBag.CarrerasList = new SelectList(carreras, "CarreraID", "Nombre");
             return View(alumnos);
         }
+
+        public IActionResult ActualizarListaAsignaturas(int alumnoID)
+        {
+            // Obtener ID de la carrera del alumno
+            var carreraIDAlumno = _context.Alumnos.Where(a => a.AlumnoID == alumnoID).Select(a => a.CarreraID).FirstOrDefault();
+
+            // Obtener la lista actualizada de asignaturas según la CarreraID del alumno
+            var asignaturas = _context.Asignaturas?
+                .Where(a => a.CarreraID == carreraIDAlumno)
+                .OrderBy(a => a.Nombre)
+                .Select(a => new { Id = a.AsignaturaID, Nombre = a.Nombre })
+                .ToList();
+
+            return Json(asignaturas);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(string nombre, DateTime fechaNacimiento, int carreraID, string direccion, int documento, string email)
         {
