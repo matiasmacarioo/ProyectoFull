@@ -177,22 +177,25 @@
             console.log("Error en la solicitud AJAX:", error);
         }
     });
-    
+
     }
 
     // js para no presionar ctrl al seleccionar alumnos
-    $('option').mousedown(function (e) {
+    $('#alumnosDisponibles').on('mousedown', 'option', function (e) {
         e.preventDefault();
+        
         var originalScrollTop = $(this).parent().scrollTop();
-        console.log(originalScrollTop);
-        $(this).prop('selected', $(this).prop('selected') ? false : true);
+        
+        $(this).prop('selected', !$(this).prop('selected'));
+        
         var self = this;
         $(this).parent().focus();
+        
         setTimeout(function () {
             $(self).parent().scrollTop(originalScrollTop);
         }, 0);
 
         return false;
     });
-
+    
 </script>
