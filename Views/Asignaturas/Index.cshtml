@@ -15,7 +15,7 @@
         }
         @using (Html.BeginForm("GenerateReport", "Report", new { reportName = "Asignaturas" }, FormMethod.Post))
         {
-        <button type="submit" class="btn btn-dark m-1">Generar PDF</button>
+            <button type="submit" class="btn btn-dark m-1">Generar PDF</button>
         }
     </div>
 </div>
@@ -82,10 +82,6 @@
                         <label for="alumnosDisponibles">Alumnos Disponibles:</label>
                         <select id="alumnosDisponibles" name="alumnos" class="form-control" multiple="multiple">
                             <option disabled value="">Selecciona los alumnos a asociar</option>
-                            @foreach (var alumno in ViewBag.AlumnosList)
-                            {
-                                <option value="@alumno.Value">@alumno.Text</option>
-                            }
                         </select>
                     </div>
                     <br>
@@ -103,8 +99,9 @@
             <tr>
                 <th>Nombre</th>
                 <th>Carrera</th>
-                @if (User.IsInRole("Administrador")){
-                <th class="text-center">Acciones</th>
+                @if (User.IsInRole("Administrador"))
+                {
+                    <th class="text-center">Acciones</th>
                 }
             </tr>
         </thead>
@@ -122,9 +119,9 @@
                                 type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal">
                                 Editar
                             </button>
-                            <button onclick="asociarAlumnos(@asignatura.AsignaturaID)" type="button" class="btn btn-dark"
-                                    data-bs-toggle="modal" data-bs-target="#asociarModal">
-                                Alumnos
+                            <button onclick="actualizarAlumnos(@asignatura.AsignaturaID)" type="button" class="btn btn-dark"
+                                @* data-bs-toggle="modal" data-bs-target="#asociarModal" *@
+                                >Alumnos
                             </button>
                             <form asp-action="Delete" asp-controller="Asignaturas" asp-route-id="@asignatura.AsignaturaID"
                                 class="d-inline">
@@ -141,6 +138,7 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
+    // para editar asignatura
     function pasarDatos(id, nombre, carrera) {
         var form = document.getElementById('formulario');
         form.action = '/Asignaturas/Edit/' + id;
@@ -149,22 +147,52 @@
         console.log(id, nombre, carrera);
     }
 
-    function asociarAlumnos(asignaturaID) {
+    function actualizarAlumnos(asignaturaID) {
+        // actualizamos el valor de asignatura seleccionada
         document.getElementById("asignaturaID").value = asignaturaID;
+
+        // Realizar una solicitud AJAX para actualizar la Lista de alumnos
+        $.ajax({
+        type: 'POST',
+        url: '/Asignaturas/ActualizarListaAlumnos',
+        data: { asignaturaID: asignaturaID },
+        success: function (data) {
+            // Limpiar el contenido actual del select
+            $('#alumnosDisponibles').empty();
+
+            // Agregar la nueva lista de alumnos al select
+            $.each(data, function (index, alumno) {
+                $('#alumnosDisponibles').append($('<option>', {
+                    value: alumno.id,
+                    text: alumno.nombre
+                }));
+            });
+
+            // Abrir el modal después de recibir la lista de alumnos
+            $('#asociarModal').modal('show');
+
+            console.log(data);
+        },
+        error: function (error) {
+            console.log("Error en la solicitud AJAX:", error);
+        }
+    });
+    
     }
 
-    $('option').mousedown(function(e) {
-    e.preventDefault();
-    var originalScrollTop = $(this).parent().scrollTop();
-    console.log(originalScrollTop);
-    $(this).prop('selected', $(this).prop('selected') ? false : true);
-    var self = this;
-    $(this).parent().focus();
-    setTimeout(function() {
-        $(self).parent().scrollTop(originalScrollTop);
-    }, 0);
-    
-    return false;
+    // js para no presionar ctrl al seleccionar alumnos
+    $('option').mousedown(function (e) {
+        e.preventDefault();
+        var originalScrollTop = $(this).parent().scrollTop();
+        console.log(originalScrollTop);
+        $(this).prop('selected', $(this).prop('selected') ? false : true);
+        var self = this;
+        $(this).parent().focus();
+        setTimeout(function () {
+            $(self).parent().scrollTop(originalScrollTop);
+        }, 0);
+
+        return false;
     });
 
 </script>

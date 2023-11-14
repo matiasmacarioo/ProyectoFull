@@ -30,6 +30,21 @@ namespace Proyecto.Controllers
             return View(asignaturas);
         }
 
+        public IActionResult ActualizarListaAlumnos(int asignaturaID)
+        {
+            // Obtener ID de la carrera de la asignatura
+            var carreraIDAsignatura = _context.Asignaturas.Where(a => a.AsignaturaID == asignaturaID).Select(a => a.CarreraID).FirstOrDefault();
+
+            // Obtener la lista actualizada de alumnos segÃºn la CarreraID de la asignatura
+            var alumnos = _context.Alumnos?
+                .Where(a => a.CarreraID == carreraIDAsignatura)
+                .OrderByDescending(a => a.Nombre)
+                .Select(a => new { Id = a.AlumnoID, Nombre = a.Nombre })
+                .ToList();
+
+            return Json(alumnos);
+        }
+
         [HttpPost]
         [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Create(string nombre, int carreraID)
@@ -92,7 +107,7 @@ namespace Proyecto.Controllers
                         AsignaturaID = asignaturaID
                     };
 
-                    // Agrega la nueva relación AlumnoAsignatura a la base de datos.
+                    // Agrega la nueva relaciï¿½n AlumnoAsignatura a la base de datos.
                     _context.AlumnoAsignaturas.Add(alumnoAsignatura);
                 }
 
