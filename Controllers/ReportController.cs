@@ -30,7 +30,12 @@ namespace Proyecto.Controllers
             List<Tarea> tareasList = _context.Tareas.OrderByDescending(a => a.Fecha).ToList();
             List<IdentityUser> usuariosList = _context.Users.ToList();
             List<ProfesorAsignatura> relacionprofesoresList = _context.ProfesorAsignaturas.ToList();
-            List<AlumnoAsignatura> relacionalumnosList = _context.AlumnoAsignaturas.ToList();
+            List<AlumnoAsignatura> relacionalumnosList = _context.AlumnoAsignaturas.OrderBy(c => c.AlumnoID).ToList();
+
+            if (reportName == "AlumnosAsignaturas")
+            {
+                relacionalumnosList = _context.AlumnoAsignaturas.OrderBy(c => c.AsignaturaID).ToList();
+            }
 
             var returnString = GenerateReportAsync(reportName, profesoresList, carrerasList, alumnosList, asignaturasList, tareasList, usuariosList, relacionprofesoresList, relacionalumnosList);
 
