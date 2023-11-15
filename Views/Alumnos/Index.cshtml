@@ -17,6 +17,10 @@
         {
             <button type="submit" class="btn btn-dark m-1">Listado de Alumnos</button>
         }
+        @using (Html.BeginForm("GenerateReport", "Report", new { reportName = "AlumnosCarrera" }, FormMethod.Post))
+        {
+            <button type="submit" class="btn btn-dark m-1">Alumnos por Carrera</button>
+        }
     </div>
 </div>
 
