@@ -1,6 +1,13 @@
 @model IEnumerable<Proyecto.Models.ProfesorAsignatura>
 
+
+
 <h2>Asignaturas por Profesor.</h2>
+
+@using (Html.BeginForm("GenerateReport", "Report", new { reportName = "AsignaturasProfesores" }, FormMethod.Post))
+{
+    <button type="submit" class="btn btn-dark m-1">Listado de Asignaturas por Profesores</button>
+}
 
 <div class="container">
     <table class="table table-responsive">
@@ -34,6 +41,11 @@
     <div class="mb-5"><br></div>
 
     <h2>Profesores por Asignatura.</h2>
+
+    @using (Html.BeginForm("GenerateReport", "Report", new { reportName = "ProfesoresAsignaturas" }, FormMethod.Post))
+    {
+        <button type="submit" class="btn btn-dark m-1">Listado de Profesores por Asignaturas</button>
+    }
 
     <!-- Tabla para mostrar los profesores por asignatura -->
     <table class="table table-responsive">

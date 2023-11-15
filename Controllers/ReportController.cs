@@ -29,13 +29,14 @@ namespace Proyecto.Controllers
             List<Asignatura> asignaturasList = _context.Asignaturas.OrderBy(c => c.Nombre).ToList();
             List<Tarea> tareasList = _context.Tareas.OrderByDescending(a => a.Fecha).ToList();
             List<IdentityUser> usuariosList = _context.Users.ToList();
+            List<ProfesorAsignatura> relacionprofesoresList = _context.ProfesorAsignaturas.ToList();
 
-            var returnString = GenerateReportAsync(reportName, profesoresList, carrerasList, alumnosList, asignaturasList, tareasList, usuariosList);
+            var returnString = GenerateReportAsync(reportName, profesoresList, carrerasList, alumnosList, asignaturasList, tareasList, usuariosList, relacionprofesoresList);
 
             return File(returnString, System.Net.Mime.MediaTypeNames.Application.Octet, reportName + ".pdf");
         }
 
-        public byte[] GenerateReportAsync(string reportName, List<Profesor> profesoresList, List<Carrera> carrerasList, List<Alumno> alumnosList, List<Asignatura> asignaturasList, List<Tarea> tareasList, List<IdentityUser> usuariosList)
+        public byte[] GenerateReportAsync(string reportName, List<Profesor> profesoresList, List<Carrera> carrerasList, List<Alumno> alumnosList, List<Asignatura> asignaturasList, List<Tarea> tareasList, List<IdentityUser> usuariosList, List<ProfesorAsignatura> relacionprofesoresList)
         {
             string fileDirPath = Assembly.GetExecutingAssembly().Location.Replace("ReportAPI.dll", string.Empty);
             string rdlcFilePath = string.Format("{0}ReportFiles\\{1}.rdlc", fileDirPath, reportName);
@@ -45,6 +46,7 @@ namespace Proyecto.Controllers
             Encoding.GetEncoding("windows-1252");
             LocalReport report = new LocalReport(rdlcFilePath);
             report.AddDataSource("DataSetProfesor", profesoresList);
+            report.AddDataSource("DataSetRelacionProfesor", relacionprofesoresList);
             report.AddDataSource("DataSetCarreras", carrerasList);
             report.AddDataSource("DataSetAlumnos", alumnosList);
             report.AddDataSource("DataSetAsignaturas", asignaturasList);
