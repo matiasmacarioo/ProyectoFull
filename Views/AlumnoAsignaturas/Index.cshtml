@@ -3,6 +3,12 @@
 
 <div class="container">
     <h2>Alumnos por Asignatura.</h2>
+
+    @using (Html.BeginForm("GenerateReport", "Report", new { reportName = "AlumnosAsignaturas" }, FormMethod.Post))
+    {
+        <button type="submit" class="btn btn-dark m-1">Listado de Alumnos por Asignatura</button>
+    }
+
     <!-- Tabla para mostrar los Alumnoes por asignatura -->
     <table class="table table-responsive">
         <thead>
@@ -34,6 +40,12 @@
     <div class="mb-5"><br></div>
     
     <h2>Asignaturas por Alumno.</h2>
+
+        @using (Html.BeginForm("GenerateReport", "Report", new { reportName = "AsignaturasAlumnos" }, FormMethod.Post))
+        {
+            <button type="submit" class="btn btn-dark m-1">Listado de Asignaturas por Alumno</button>
+        }
+
     <table class="table table-responsive">
         <thead>
             <tr>

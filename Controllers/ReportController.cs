@@ -30,13 +30,14 @@ namespace Proyecto.Controllers
             List<Tarea> tareasList = _context.Tareas.OrderByDescending(a => a.Fecha).ToList();
             List<IdentityUser> usuariosList = _context.Users.ToList();
             List<ProfesorAsignatura> relacionprofesoresList = _context.ProfesorAsignaturas.ToList();
+            List<AlumnoAsignatura> relacionalumnosList = _context.AlumnoAsignaturas.ToList();
 
-            var returnString = GenerateReportAsync(reportName, profesoresList, carrerasList, alumnosList, asignaturasList, tareasList, usuariosList, relacionprofesoresList);
+            var returnString = GenerateReportAsync(reportName, profesoresList, carrerasList, alumnosList, asignaturasList, tareasList, usuariosList, relacionprofesoresList, relacionalumnosList);
 
             return File(returnString, System.Net.Mime.MediaTypeNames.Application.Octet, reportName + ".pdf");
         }
 
-        public byte[] GenerateReportAsync(string reportName, List<Profesor> profesoresList, List<Carrera> carrerasList, List<Alumno> alumnosList, List<Asignatura> asignaturasList, List<Tarea> tareasList, List<IdentityUser> usuariosList, List<ProfesorAsignatura> relacionprofesoresList)
+        public byte[] GenerateReportAsync(string reportName, List<Profesor> profesoresList, List<Carrera> carrerasList, List<Alumno> alumnosList, List<Asignatura> asignaturasList, List<Tarea> tareasList, List<IdentityUser> usuariosList, List<ProfesorAsignatura> relacionprofesoresList, List<AlumnoAsignatura> relacionalumnosList)
         {
             string fileDirPath = Assembly.GetExecutingAssembly().Location.Replace("ReportAPI.dll", string.Empty);
             string rdlcFilePath = string.Format("{0}ReportFiles\\{1}.rdlc", fileDirPath, reportName);
@@ -47,6 +48,7 @@ namespace Proyecto.Controllers
             LocalReport report = new LocalReport(rdlcFilePath);
             report.AddDataSource("DataSetProfesor", profesoresList);
             report.AddDataSource("DataSetRelacionProfesor", relacionprofesoresList);
+            report.AddDataSource("DataSetRelacionAlumno", relacionalumnosList);
             report.AddDataSource("DataSetCarreras", carrerasList);
             report.AddDataSource("DataSetAlumnos", alumnosList);
             report.AddDataSource("DataSetAsignaturas", asignaturasList);
